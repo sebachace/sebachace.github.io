@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Data Science Portfolio - Showcasing projects and skills in data analysis, machine learning, and visualization">
+    <title>Data Science Portfolio</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#home">DS<span class="accent">.</span></a>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="section home-section">
+            <div class="container reveal">
+                <div class="home-content">
+                    <h1 class="reveal-item">Hello, I'm <span class="accent">Sebastian Chace</span></h1>
+                    <h2 class="reveal-item">Sr. Data Scientist & ML Engineer</h2>
+                    <p class="reveal-item">It's not enough to connect to your data. Convincing data to give us insights, building intelligent solutions.</p>
+                    <div class="cta-buttons reveal-item">
+                        <a href="#projects" class="btn primary-btn">View Projects</a>
+                        <a href="#contact" class="btn secondary-btn">Get in Touch</a>
+                    </div>
+                </div>
+                <div class="home-image reveal-item">
+                    <!-- Replace with actual headshot or keep as abstract graphic -->
+                    <div class="profile-image">
+                        <div class="profile-placeholder">
+                            <!-- <i class="fas fa-user"></i> -->
+                            <img src="images/IMG_6596.JPG" alt="Trucks, lots of trucks" class="profile-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="particles-js" class="particles"></div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section projects-section">
+            <div class="container">
+                <h2 class="section-title reveal-item">Projects</h2>
+                <div class="project-filters reveal-item">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="machine-learning">Machine Learning</button>
+                    <button class="filter-btn" data-filter="data-analysis">Data Analysis</button>
+                    <button class="filter-btn" data-filter="visualization">Visualization</button>
+                </div>
+                <div class="projects-grid">
+                    <!-- Project 1 -->
+                    <div class="project-card reveal-item" data-category="machine-learning">
+                        <div class="project-image">
+                            <img src="images/Designer.jpeg" alt="Project 1">
+                        </div>
+                        <div class="project-info">
+                            <h3>Predictive Analytics Model</h3>
+                            <p>A machine learning model for predicting customer behavior using historical transaction data.</p>
+                            <div class="project-tech">
+                                <span>Python</span>
+                                <span>scikit-learn</span>
+                                <span>Pandas</span>
+                            </div>
+                            <button class="project-details-btn">View Details</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 2 -->
+                    <div class="project-card reveal-item" data-category="data-analysis">
+                        <div class="project-image">
+                            <img src="https://via.placeholder.com/600x400" alt="Project 2">
+                        </div>
+                        <div class="project-info">
+                            <h3>Financial Data Analysis</h3>
+                            <p>Comprehensive analysis of financial time series data to identify market trends and patterns.</p>
+                            <div class="project-tech">
+                                <span>R</span>
+                                <span>ggplot2</span>
+                                <span>Tableau</span>
+                            </div>
+                            <button class="project-details-btn">View Details</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 3 -->
+                    <div class="project-card reveal-item" data-category="visualization">
+                        <div class="project-image">
+                            <img src="https://via.placeholder.com/600x400" alt="Project 3">
+                        </div>
+                        <div class="project-info">
+                            <h3>Interactive Data Dashboard</h3>
+                            <p>Interactive visualization dashboard for exploring and analyzing complex datasets.</p>
+                            <div class="project-tech">
+                                <span>D3.js</span>
+                                <span>JavaScript</span>
+                                <span>HTML/CSS</span>
+                            </div>
+                            <button class="project-details-btn">View Details</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 4 -->
+                    <div class="project-card reveal-item" data-category="machine-learning">
+                        <div class="project-image">
+                            <img src="https://via.placeholder.com/600x400" alt="Project 4">
+                        </div>
+                        <div class="project-info">
+                            <h3>Natural Language Processing</h3>
+                            <p>Text classification and sentiment analysis model for customer feedback.</p>
+                            <div class="project-tech">
+                                <span>NLTK</span>
+                                <span>TensorFlow</span>
+                                <span>BERT</span>
+                            </div>
+                            <button class="project-details-btn">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Modal -->
+        <div class="modal" id="projectModal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <div class="modal-body">
+                    <h2 id="modalTitle">Project Title</h2>
+                    <div class="modal-image">
+                        <img id="modalImage" src="" alt="Project Image">
+                    </div>
+                    <div class="modal-description">
+                        <h3>Overview</h3>
+                        <p id="modalDescription">Project description goes here.</p>
+                        
+                        <h3>Methodology</h3>
+                        <p id="modalMethodology">
+                            Detailed methodology, including data collection, preprocessing, analysis approaches, 
+                            algorithms used, and validation methods.
+                        </p>
+                        
+                        <h3>Results</h3>
+                        <p id="modalResults">
+                            Key findings, model performance metrics, visualizations, and business implications.
+                        </p>
+                        
+                        <h3>Technologies Used</h3>
+                        <div id="modalTech" class="modal-tech"></div>
+                        
+                        <div class="modal-links">
+                            <a href="#" id="codeLink" target="_blank" class="modal-link">
+                                <i class="fab fa-github"></i> View Code
+                            </a>
+                            <a href="#" id="demoLink" target="_blank" class="modal-link">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section skills-section">
+            <div class="container">
+                <h2 class="section-title reveal-item">Skills</h2>
+                
+                <div class="skills-container">
+                    <!-- Programming Languages -->
+                    <div class="skill-category reveal-item">
+                        <h3 class="category-title">Programming Languages</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item">
+                                <div class="skill-info">
+                                    <span class="skill-name">Python</span>
+                                    <span class="skill-percentage">95%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="95"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-info">
+                                    <span class="skill-name">R</span>
+                                    <span class="skill-percentage">85%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-info">
+                                    <span class="skill-name">SQL</span>
+                                    <span class="skill-percentage">90%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-info">
+                                    <span class="skill-name">JavaScript</span>
+                                    <span class="skill-percentage">75%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="75"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Data Science Tools -->
+                    <div class="skill-category reveal-item">
+                        <h3 class="category-title">Data Science Tools</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item">
+                                <div class="skill-info">
+                                    <span class="skill-name">Pandas</span>
+                                    <span class="skill-percentage">95%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="95"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-info">
+                                    <span class="skill-name">NumPy</span>
+                                    <span class="skill-percentage">90%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-info">
+                                    <span class="skill-name">Matplotlib/Seaborn</span>
+                                    <span class="skill-percentage">85%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-info">
+                                    <span class="skill-name">Tableau</span>
+                                    <span class="skill-percentage">80%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="80"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Machine Learning -->
+                    <div class="skill-category reveal-item">
+                        <h3 class="category-title">Machine Learning</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item">
+                                <div class="skill-info">
+                                    <span class="skill-name">scikit-learn</span>
+                                    <span class="skill-percentage">90%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-info">
+                                    <span class="skill-name">TensorFlow/Keras</span>
+                                    <span class="skill-percentage">85%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-info">
+                                    <span class="skill-name">PyTorch</span>
+                                    <span class="skill-percentage">75%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="75"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-info">
+                                    <span class="skill-name">NLP</span>
+                                    <span class="skill-percentage">80%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="80"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Big Data Tools -->
+                    <div class="skill-category reveal-item">
+                        <h3 class="category-title">Big Data Tools</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item">
+                                <div class="skill-info">
+                                    <span class="skill-name">Spark</span>
+                                    <span class="skill-percentage">80%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="80"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-info">
+                                    <span class="skill-name">Hadoop</span>
+                                    <span class="skill-percentage">70%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="70"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-info">
+                                    <span class="skill-name">AWS/GCP</span>
+                                    <span class="skill-percentage">75%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="75"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-info">
+                                    <span class="skill-name">Docker</span>
+                                    <span class="skill-percentage">85%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-progress="85"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section about-section">
+            <div class="container">
+                <h2 class="section-title reveal-item">About Me</h2>
+                <div class="about-content">
+                    <div class="about-text reveal-item">
+                        <p>I am a passionate Data Scientist with expertise in machine learning, statistical analysis, and data visualization. My goal is to leverage data-driven approaches to solve complex problems and generate actionable insights.</p>
+                        <p>With a background in [Your Background, e.g., Computer Science, Statistics], I combine strong technical skills with domain knowledge to build effective solutions across various industries including [e.g., finance, healthcare, e-commerce].</p>
+                        <p>When I'm not working with data, you can find me [your hobbies/interests, e.g., hiking, playing chess, contributing to open-source projects].</p>
+                        <div class="about-cta">
+                            <a href="#" class="btn primary-btn" id="downloadResume">Download Resume</a>
+                        </div>
+                    </div>
+                    
+                    <div class="about-timeline reveal-item">
+                        <h3>Experience & Education</h3>
+                        <div class="timeline">
+                            <!-- Timeline Item 1 -->
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <h4>Senior Data Scientist</h4>
+                                    <h5>Company Name</h5>
+                                    <p class="timeline-date">2021 - Present</p>
+                                    <p>Leading data science initiatives to optimize business processes and develop predictive models for customer behavior analysis.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Timeline Item 2 -->
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <h4>Data Scientist</h4>
+                                    <h5>Previous Company</h5>
+                                    <p class="timeline-date">2018 - 2021</p>
+                                    <p>Developed and implemented machine learning models to improve product recommendations and customer segmentation.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Timeline Item 3 -->
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <h4>M.S. in Data Science</h4>
+                                    <h5>University Name</h5>
+                                    <p class="timeline-date">2016 - 2018</p>
+                                    <p>Focused on advanced statistical methods, machine learning algorithms, and big data technologies.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Timeline Item 4 -->
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <h4>B.S. in Computer Science</h4>
+                                    <h5>University Name</h5>
+                                    <p class="timeline-date">2012 - 2016</p>
+                                    <p>Developed strong programming foundations and analytical skills through coursework in algorithms, data structures, and mathematics.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section contact-section">
+            <div class="container">
+                <h2 class="section-title reveal-item">Get In Touch</h2>
+                <div class="contact-content">
+                    <div class="contact-info reveal-item">
+                        <h3>Contact Information</h3>
+                        <div class="contact-details">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <div class="contact-text">
+                                    <span id="emailAddress">seba.chace@gmail.com</span>
+                                    <button class="copy-btn" data-copy="seba.chace@gmail.com">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Currenty working in Milan, Italy</span>
+                            </div>
+                        </div>
+                        
+                        <div class="social-links">
+                            <h3>Connect With Me</h3>
+                            <div class="social-icons">
+                                <a href="https://github.com/" target="_blank" class="social-icon">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="https://linkedin.com/" target="_blank" class="social-icon">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="https://twitter.com/" target="_blank" class="social-icon">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="https://kaggle.com/" target="_blank" class="social-icon">
+                                    <i class="fab fa-kaggle"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-form-container reveal-item">
+                        <h3>Send Me a Message</h3>
+                        <form id="contactForm" class="contact-form">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <input type="text" id="subject" name="subject" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn primary-btn">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Your Name. All Rights Reserved.</p>
+                <p>Designed and built with <span class="accent">❤</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
