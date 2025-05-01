@@ -415,17 +415,16 @@ document.addEventListener('DOMContentLoaded', function() {
           e.preventDefault();
           
           // In a real portfolio, this would link to an actual PDF file
-          alert('In the actual portfolio, this button would download your resume PDF.');
+        //   alert('In the actual portfolio, this button would download your resume PDF.');
           
           // Example of how to trigger a download (uncomment and update when you have an actual resume file)
-          /*
           const link = document.createElement('a');
-          link.href = 'path/to/your-resume.pdf';
-          link.download = 'YourName-Resume.pdf';
+          link.href = '/resources/Resume Seb ENG_2025.pdf';
+          link.download = 'Resume Seb ENG_2025.pdf';
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
-          */
+          
       });
   }
 });
