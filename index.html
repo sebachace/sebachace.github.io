@@ -5,11 +5,800 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Data Science Portfolio - Showcasing projects and skills in data analysis, machine learning, and visualization">
     <title>Data Science Portfolio</title>
-    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet CSS and JS for network visualization -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+    
+    <!-- D3.js for network visualization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-color: #0a192f;
+            --primary-light: #112240;
+            --primary-dark: #051124;
+            --accent-color: #64ffda;
+            --text-primary: #e6f1ff;
+            --text-secondary: #8892b0;
+            --bg-color: #0a192f;
+            --card-bg: #112240;
+            --overlay: rgba(10, 25, 47, 0.9);
+            
+            --space-1: 0.5rem;
+            --space-2: 1rem;
+            --space-3: 2rem;
+            --space-4: 3rem;
+            --space-5: 5rem;
+            
+            --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+            --border-radius: 4px;
+            --container-width: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        a:hover {
+            color: var(--accent-color);
+            opacity: 0.8;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            width: 90%;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 var(--space-2);
+        }
+
+        .section {
+            padding: var(--space-5) 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-4);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 70px;
+            height: 4px;
+            background-color: var(--accent-color);
+        }
+
+        .accent {
+            color: var(--accent-color);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            border: none;
+        }
+
+        .primary-btn {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            border: 1px solid var(--accent-color);
+        }
+
+        .primary-btn:hover {
+            background-color: transparent;
+            color: var(--accent-color);
+        }
+
+        .secondary-btn {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+        }
+
+        .secondary-btn:hover {
+            background-color: rgba(100, 255, 218, 0.1);
+        }
+
+        /* Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(10, 25, 47, 0.9);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 0;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            width: 90%;
+        }
+
+        .logo a {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            margin-left: var(--space-3);
+            position: relative;
+            font-weight: 500;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .nav-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--accent-color);
+            margin: 2px 0;
+            transition: var(--transition);
+        }
+
+        /* Home Section */
+        .home-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-section .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        .home-content h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: var(--space-1);
+            line-height: 1.1;
+        }
+
+        .home-content h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2);
+        }
+
+        .home-content p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-3);
+            max-width: 540px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: var(--space-2);
+            margin-top: var(--space-2);
+            flex-wrap: wrap;
+        }
+
+        .profile-image {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--accent-color);
+            margin: 0 auto;
+        }
+
+        .profile-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary-light);
+        }
+
+        .profile-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #particles-js {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* About Section */
+        .about-section {
+            background-color: var(--primary-light);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: var(--space-4);
+            align-items: start;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2);
+            line-height: 1.7;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-3);
+            margin-top: var(--space-4);
+        }
+
+        .skill-category {
+            background-color: var(--card-bg);
+            padding: var(--space-2);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        .skill-category h4 {
+            color: var(--accent-color);
+            margin-bottom: var(--space-1);
+            font-size: 1.2rem;
+        }
+
+        .skill-category ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .skill-category li {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .skill-category li::before {
+            content: '▸';
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+        }
+
+        /* Timeline Styles */
+        .timeline-container {
+            position: relative;
+            padding: var(--space-2) 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--accent-color) 0%, var(--primary-light) 100%);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: var(--space-4);
+            padding-left: 60px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 12px;
+            top: 8px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--accent-color);
+            border: 4px solid var(--primary-light);
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px var(--bg-color);
+            z-index: 2;
+        }
+
+        .timeline-dot.active {
+            background-color: var(--accent-color);
+            box-shadow: 0 0 0 4px var(--bg-color), 0 0 20px rgba(100, 255, 218, 0.3);
+        }
+
+        .timeline-content {
+            background-color: var(--card-bg);
+            padding: var(--space-2);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            transition: var(--transition);
+        }
+
+        .timeline-content:hover {
+            border-color: var(--accent-color);
+            transform: translateX(5px);
+        }
+
+        .timeline-date {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-company {
+            color: var(--accent-color);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Projects Section */
+        .projects-section {
+            background-color: var(--bg-color);
+        }
+
+        .project-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: var(--space-3);
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background-color: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--text-primary);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background-color: rgba(100, 255, 218, 0.1);
+            color: var(--accent-color);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: var(--space-3);
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+            transition: var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px -15px rgba(2, 12, 27, 0.7);
+        }
+
+        .project-image {
+            overflow: hidden;
+            height: 200px;
+            position: relative;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+        }
+
+        .project-info {
+            padding: var(--space-2);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .project-info p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-tech span {
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            background-color: rgba(100, 255, 218, 0.1);
+            padding: 0.25rem 0.6rem;
+            border-radius: 15px;
+        }
+
+        .project-details-btn {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 0.5rem 0;
+            width: 100%;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .project-details-btn:hover {
+            background-color: rgba(100, 255, 218, 0.1);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: var(--space-4) 0;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+            align-items: start;
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-2);
+            color: var(--text-primary);
+        }
+
+        .contact-details {
+            margin-bottom: var(--space-3);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--space-2);
+        }
+
+        .contact-item i {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-right: var(--space-1);
+            width: 24px;
+        }
+
+        .social-links h3 {
+            margin-bottom: var(--space-2);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .contact-form-container h3 {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-2);
+            color: var(--text-primary);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 0.75rem;
+            background-color: var(--primary-light);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+
+        /* Network Visualization Preview */
+        .network-preview {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a192f 0%, #112240 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .preview-nodes {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .preview-node {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #64ffda;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .preview-node:nth-child(1) { top: 20%; left: 15%; animation-delay: 0s; }
+        .preview-node:nth-child(2) { top: 30%; left: 40%; animation-delay: 0.3s; }
+        .preview-node:nth-child(3) { top: 50%; left: 30%; animation-delay: 0.6s; }
+        .preview-node:nth-child(4) { top: 70%; left: 50%; animation-delay: 0.9s; }
+        .preview-node:nth-child(5) { top: 40%; left: 70%; animation-delay: 1.2s; }
+        .preview-node:nth-child(6) { top: 60%; left: 80%; animation-delay: 1.5s; }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 0 8px rgba(100, 255, 218, 0.5);
+            }
+            50% { 
+                transform: scale(1.5);
+                box-shadow: 0 0 16px rgba(100, 255, 218, 0.8);
+            }
+        }
+
+        .preview-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #64ffda;
+            font-weight: 600;
+            font-size: 1.1rem;
+            z-index: 10;
+        }
+
+        /* Responsive */
+        @media screen and (max-width: 992px) {
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .home-content h1 {
+                font-size: 3rem;
+            }
+            
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: var(--space-3);
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .nav-toggle {
+                display: flex;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background-color: var(--primary-light);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: var(--transition);
+                z-index: 1001;
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-link {
+                margin: var(--space-2) 0;
+                font-size: 1.2rem;
+            }
+            
+            .home-section .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .home-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            .section {
+                padding: var(--space-4) 0;
+            }
+            
+            .home-content h1 {
+                font-size: 2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                gap: var(--space-1);
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: var(--space-3);
+            }
+
+            .timeline-container {
+                order: -1;
+                margin-bottom: var(--space-3);
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -25,9 +814,8 @@
             </div>
             <ul class="nav-links">
                 <li><a href="#home" class="nav-link active">Home</a></li>
-                <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="#skills" class="nav-link">Skills</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
         </nav>
@@ -36,392 +824,232 @@
     <main>
         <!-- Home Section -->
         <section id="home" class="section home-section">
-            <div class="container reveal">
+            <div class="container">
                 <div class="home-content">
-                    <h1 class="reveal-item">Hello, I'm <span class="accent">Sebastian Chace</span></h1>
-                    <h2 class="reveal-item">Sr. Data Scientist & ML Engineer</h2>
-                    <p class="reveal-item">Code is now a commodity, insights aren't</p>
-                    <div class="cta-buttons reveal-item">
-                        <a href="#projects" class="btn primary-btn">View Projects</a>
-                        <a href="#contact" class="btn secondary-btn">Get in Touch</a>
+                    <h1>Hello, I'm <span class="accent">Sebastian Chace</span></h1>
+                    <h2>Sr. Data Scientist & ML Engineer</h2>
+                    <p>Code is now a commodity, insights aren't</p>
+                    <div class="cta-buttons">
+                        <a href="resources/Resume Seb ENG_2025.pdf" download class="btn primary-btn">
+                            <i class="fas fa-download"></i> Download Resume
+                        </a>
                     </div>
                 </div>
-                <div class="home-image reveal-item">
-                    <!-- Replace with actual headshot or keep as abstract graphic -->
+                <div class="home-image">
                     <div class="profile-image">
                         <div class="profile-placeholder">
-                            <!-- <i class="fas fa-user"></i> -->
-                            <img src="images/IMG_6596.JPG" alt="Trucks, lots of trucks" class="profile-image">
+                            <img src="images/IMG_6596.JPG" alt="Sebastian Chace" style="border-radius: 50%;">
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="particles-js" class="particles"></div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects" class="section projects-section">
-            <div class="container">
-                <h2 class="section-title reveal-item">Projects</h2>
-                <div class="project-filters reveal-item">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="machine-learning">Machine Learning</button>
-                    <button class="filter-btn" data-filter="data-analysis">Data Analysis</button>
-                    <button class="filter-btn" data-filter="visualization">Visualization</button>
-                </div>
-                <div class="projects-grid">
-                    <!-- Project 1 -->
-                    <div class="project-card reveal-item" data-category="machine-learning">
-                        <div class="project-image">
-                            <img src="images/Designer.jpeg" alt="Project 1">
-                        </div>
-                        <div class="project-info">
-                            <h3>Predictive Analytics Model</h3>
-                            <p>A machine learning model for predicting customer behavior using historical transaction data.</p>
-                            <div class="project-tech">
-                                <span>Python</span>
-                                <span>scikit-learn</span>
-                                <span>Pandas</span>
-                            </div>
-                            <button class="project-details-btn">View Details</button>
-                        </div>
-                    </div>
-                    
-                    <!-- Project 2 -->
-                    <div class="project-card reveal-item" data-category="data-analysis">
-                        <div class="project-image">
-                            <img src="images/Designer (1).jpeg" alt="Project 2">
-                        </div>
-                        <div class="project-info">
-                            <h3>Financial Data Analysis</h3>
-                            <p>Comprehensive analysis of financial time series data to identify market trends and patterns.</p>
-                            <div class="project-tech">
-                                <span>R</span>
-                                <span>ggplot2</span>
-                                <span>Tableau</span>
-                            </div>
-                            <button class="project-details-btn">View Details</button>
-                        </div>
-                    </div>
-                    
-                    <!-- Project 3 -->
-                    <div class="project-card reveal-item" data-category="visualization">
-                        <div class="project-image">
-                            <img src="https://via.placeholder.com/600x400" alt="Project 3">
-                        </div>
-                        <div class="project-info">
-                            <h3>Interactive Data Dashboard</h3>
-                            <p>Interactive visualization dashboard for exploring and analyzing complex datasets.</p>
-                            <div class="project-tech">
-                                <span>D3.js</span>
-                                <span>JavaScript</span>
-                                <span>HTML/CSS</span>
-                            </div>
-                            <button class="project-details-btn">View Details</button>
-                        </div>
-                    </div>
-                    
-                    <!-- Project 4 -->
-                    <div class="project-card reveal-item" data-category="machine-learning">
-                        <div class="project-image">
-                            <img src="https://via.placeholder.com/600x400" alt="Project 4">
-                        </div>
-                        <div class="project-info">
-                            <h3>Natural Language Processing</h3>
-                            <p>Text classification and sentiment analysis model for customer feedback.</p>
-                            <div class="project-tech">
-                                <span>NLTK</span>
-                                <span>TensorFlow</span>
-                                <span>BERT</span>
-                            </div>
-                            <button class="project-details-btn">View Details</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Project Modal -->
-        <div class="modal" id="projectModal">
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
-                <div class="modal-body">
-                    <h2 id="modalTitle">Project Title</h2>
-                    <div class="modal-image">
-                        <img id="modalImage" src="" alt="Project Image">
-                    </div>
-                    <div class="modal-description">
-                        <h3>Overview</h3>
-                        <p id="modalDescription">Project description goes here.</p>
-                        
-                        <h3>Methodology</h3>
-                        <p id="modalMethodology">
-                            Detailed methodology, including data collection, preprocessing, analysis approaches, 
-                            algorithms used, and validation methods.
-                        </p>
-                        
-                        <h3>Results</h3>
-                        <p id="modalResults">
-                            Key findings, model performance metrics, visualizations, and business implications.
-                        </p>
-                        
-                        <h3>Technologies Used</h3>
-                        <div id="modalTech" class="modal-tech"></div>
-                        
-                        <div class="modal-links">
-                            <a href="#" id="codeLink" target="_blank" class="modal-link">
-                                <i class="fab fa-github"></i> View Code
-                            </a>
-                            <a href="#" id="demoLink" target="_blank" class="modal-link">
-                                <i class="fas fa-external-link-alt"></i> Live Demo
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Skills Section -->
-        <section id="skills" class="section skills-section">
-            <div class="container">
-                <h2 class="section-title reveal-item">Skills</h2>
-                
-                <div class="skills-container">
-                    <!-- Programming Languages -->
-                    <div class="skill-category reveal-item">
-                        <h3 class="category-title">Programming Languages</h3>
-                        <div class="skills-grid">
-                            <div class="skill-item">
-                                <div class="skill-info">
-                                    <span class="skill-name">Python</span>
-                                    <span class="skill-percentage">95%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="95"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info">
-                                    <span class="skill-name">R</span>
-                                    <span class="skill-percentage">85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="85"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info">
-                                    <span class="skill-name">SQL</span>
-                                    <span class="skill-percentage">90%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="90"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info">
-                                    <span class="skill-name">JavaScript</span>
-                                    <span class="skill-percentage">50%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="75"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Data Science Tools -->
-                    <div class="skill-category reveal-item">
-                        <h3 class="category-title">Data Science Tools</h3>
-                        <div class="skills-grid">
-                            <div class="skill-item">
-                                <div class="skill-info">
-                                    <span class="skill-name">Pandas</span>
-                                    <span class="skill-percentage">95%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="95"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info">
-                                    <span class="skill-name">NumPy</span>
-                                    <span class="skill-percentage">90%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="90"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info">
-                                    <span class="skill-name">Matplotlib/Seaborn</span>
-                                    <span class="skill-percentage">85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="85"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info">
-                                    <span class="skill-name">Tableau</span>
-                                    <span class="skill-percentage">80%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="80"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Machine Learning -->
-                    <div class="skill-category reveal-item">
-                        <h3 class="category-title">Machine Learning</h3>
-                        <div class="skills-grid">
-                            <div class="skill-item">
-                                <div class="skill-info">
-                                    <span class="skill-name">scikit-learn</span>
-                                    <span class="skill-percentage">90%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="90"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info">
-                                    <span class="skill-name">TensorFlow/Keras</span>
-                                    <span class="skill-percentage">85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="85"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info">
-                                    <span class="skill-name">PyTorch</span>
-                                    <span class="skill-percentage">75%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="75"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info">
-                                    <span class="skill-name">NLP</span>
-                                    <span class="skill-percentage">80%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="80"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Big Data Tools -->
-                    <div class="skill-category reveal-item">
-                        <h3 class="category-title">Big Data Tools</h3>
-                        <div class="skills-grid">
-                            <div class="skill-item">
-                                <div class="skill-info">
-                                    <span class="skill-name">Spark</span>
-                                    <span class="skill-percentage">80%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="80"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info">
-                                    <span class="skill-name">Hadoop</span>
-                                    <span class="skill-percentage">70%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="70"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info">
-                                    <span class="skill-name">AWS/GCP</span>
-                                    <span class="skill-percentage">75%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="75"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info">
-                                    <span class="skill-name">Docker</span>
-                                    <span class="skill-percentage">85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" data-progress="85"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div id="particles-js"></div>
         </section>
 
         <!-- About Section -->
         <section id="about" class="section about-section">
             <div class="container">
-                <h2 class="section-title reveal-item">About Me</h2>
+                <h2 class="section-title">About Me</h2>
                 <div class="about-content">
-                    <div class="about-text reveal-item">
-                        <p>As a Senior Data Scientist at BearingPoint in Milan, I transform business challenges into data-driven solutions. With experience across finance and analytics in Latin America and Europe, I've developed a skill for asking the right questions—balancing technical needs with human impact.</p>
-                        <p>My journey spans from teaching university forecasting courses to implementing optimization models for financial institutions. Applying Analytics in financial services, logistics, chemical and other industries, I developed machine learning applications for wealth management, learning that the best solutions emerge from collaboration and critical thinking.</p>
-                        <p>Beyond data, I explore new culinary recipes, hiking trails, and rock climbing routes. My multilingual interest reflects my belief in cross-cultural communication—a principle I apply in every project, approaching challenges with curiosity and practical outcomes in mind.</p>
-                        <div class="about-cta">
-                            <a href="#" class="btn primary-btn" id="downloadResume">Download Resume</a>
+                    <div class="about-text">
+                        <p>
+                    As a Senior Data Scientist at BearingPoint in Milan, 
+                    I transform business challenges into data-driven solutions across
+                     finance and analytics in Latin America and Europe, balancing technical precision with human impact.
+                        </p>
+                        <p>                            
+                        My experience spans from teaching university forecasting to implementing machine learning
+                         applications across financial services, logistics, and chemical industries. 
+                         The best solutions emerge from collaboration and critical thinking, not just algorithms.
+                        </p>
+                        <p>
+                        Beyond data, I explore new recipes, hiking trails, and rock climbing. 
+                        My multilingual background reflects my belief in cross-cultural communication—a principle I
+                         apply in every project with curiosity and practical outcomes in mind.
+                        </p>
+                        
+                        <div class="skills-grid">
+                            <div class="skill-category">
+                                <h4>Technical Skills</h4>
+                                <ul>
+                                    <li>Python, R, Julia</li>
+                                    <li>Machine Learning & AI</li>
+                                    <li>Mathematical Optimization</li>
+                                    <li>Statistical Modeling</li>
+                                    <li>Data Visualization</li>
+                                </ul>
+                            </div>
+                            <div class="skill-category">
+                                <h4>Tools & Platforms</h4>
+                                <ul>
+                                    <li>Google Cloud Platform</li>
+                                    <li>TensorFlow, scikit-learn</li>
+                                    <li>Excel & VBA</li>
+                                    <li>SQL & NoSQL Databases</li>
+                                    <li>Git & Version Control</li>
+                                </ul>
+                            </div>
+                            <div class="skill-category">
+                                <h4>Specializations</h4>
+                                <ul>
+                                    <li>Supply Chain Optimization</li>
+                                    <li>Network Analysis</li>
+                                    <li>Predictive Analytics</li>
+                                    <li>Business Intelligence</li>
+                                    <li>Process Optimization</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="about-timeline reveal-item">
-                        <h3>Experience & Education</h3>
-                        <div class="timeline">
-                            <!-- Timeline Item 1 -->
-                            <div class="timeline-item">
-                                <div class="timeline-dot"></div>
-                                <div class="timeline-content">
-                                    <h4>Senior Business Consultant</h4>
-                                    <h5>BearingPoint, Italy</h5>
-                                    <p class="timeline-date">2023 - Present</p>
-                                    <p> I lead transformation projects in finance, logistics, and transportation. I translate client challenges into practical solutions through data analysis and strategic planning—guiding initiatives from concept to implementation with measurable business impact.</p>
+                    <!-- Experience Timeline -->
+                    <div class="timeline-container">
+                        <div class="timeline-line"></div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot active"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">2023 - Present</div>
+                                <div class="timeline-title">Senior Data Scientist</div>
+                                <div class="timeline-company">BearingPoint - Milan, Italy</div>
+                                <div class="timeline-description">
+                                    Leading data science initiatives across multiple industries, developing optimization models and machine learning solutions for enterprise clients.
                                 </div>
                             </div>
-                            
-                            <!-- Timeline Item 2 -->
-                            <div class="timeline-item">
-                                <div class="timeline-dot"></div>
-                                <div class="timeline-content">
-                                    <h4>Senior Data Scientist</h4>
-                                    <h5>BCI Bank, Chile</h5>
-                                    <p class="timeline-date">2021 - 2023</p>
-                                    <p>As part of the Analytics for the Investment team, my goal was to setup projects that would enable the investments branch of the bank to fulfill its role as pillar of the bank's strategy</p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">2021 - 2023</div>
+                                <div class="timeline-title">Data Scientist & Analytics Consultant</div>
+                                <div class="timeline-company">Financial Services - Latin America</div>
+                                <div class="timeline-description">
+                                    Implemented predictive analytics and optimization models for wealth management and financial planning applications.
                                 </div>
                             </div>
-                            
-                            <!-- Timeline Item 3 -->
-                            <div class="timeline-item">
-                                <div class="timeline-dot"></div>
-                                <div class="timeline-content">
-                                    <h4>Analytics Latinamerican HUB Consultant</h4>
-                                    <h5>Ernst&Young, LAS Region</h5>
-                                    <p class="timeline-date">2018 - 2021</p>
-                                    <p>As part of the regional HUB for analytics, I was focused on advanced statistical methods, machine learning algorithms, and big data technologies.</p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">2019 - 2021</div>
+                                <div class="timeline-title">University Lecturer & Researcher</div>
+                                <div class="timeline-company">Academia - Forecasting & Statistics</div>
+                                <div class="timeline-description">
+                                    Taught forecasting courses and conducted research in statistical modeling and time series analysis.
                                 </div>
                             </div>
-                            
-                            <!-- Timeline Item 4 -->
-                            <div class="timeline-item">
-                                <div class="timeline-dot"></div>
-                                <div class="timeline-content">
-                                    <h4>Msc. in Operations Research</h4>
-                                    <h5>Universidad Adolfo Ibanez, Chile</h5>
-                                    <p class="timeline-date">2018</p>
-                                    <p>Developed strong mathematical optimization and statistics foundations, and programming skills through coursework in algorithms, data structures, and mathematics.</p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">2017 - 2019</div>
+                                <div class="timeline-title">Junior Data Analyst</div>
+                                <div class="timeline-company">Various Industries - Entry Level</div>
+                                <div class="timeline-description">
+                                    Started career in data analysis across logistics, chemical, and other industries, building foundation in analytics and problem-solving.
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section projects-section">
+            <div class="container">
+                <h2 class="section-title">Projects</h2>
+                <div class="project-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="visualization">Visualization</button>
+                    <button class="filter-btn" data-filter="machine-learning">Machine Learning</button>
+                    <button class="filter-btn" data-filter="data-analysis">Data Analysis</button>
+                </div>
+                <div class="projects-grid">
+                    <!-- Network Visualization Project -->
+                    <div class="project-card" data-category="visualization">
+                        <div class="project-image">
+                            <div class="network-preview">
+                                <div class="preview-nodes">
+                                    <div class="preview-node"></div>
+                                    <div class="preview-node"></div>
+                                    <div class="preview-node"></div>
+                                    <div class="preview-node"></div>
+                                    <div class="preview-node"></div>
+                                    <div class="preview-node"></div>
+                                </div>
+                                <div class="preview-overlay">
+                                    Interactive Network
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Optimization of the country-wide shipments</h3>
+                            <p>Interactive network visualization showing the results of mathematical optimization of the shipments of multi-tier goods across the country.</p>
+                            <div class="project-tech">
+                                <span>Julia</span>
+                                <span>Linear Optimization</span>
+                                <span>Excel&VBA</span>
+                                <span>GCP</span>
+                            </div>
+                            <a href="testing.html" class="project-details-btn" style="text-decoration: none; text-align: center; display: block;">View Interactive Demo</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Machine Learning Project -->
+                    <div class="project-card" data-category="machine-learning">
+                        <div class="project-image">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop" alt="Predictive Analytics">
+                        </div>
+                        <div class="project-info">
+                            <h3>Predictive Analytics Model</h3>
+                            <p>A machine learning model for predicting customer behavior using historical transaction data with 92% accuracy.</p>
+                            <div class="project-tech">
+                                <span>Python</span>
+                                <span>scikit-learn</span>
+                                <span>Pandas</span>
+                                <span>TensorFlow</span>
+                            </div>
+                            <button class="project-details-btn">View Details</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Data Analysis Project -->
+                    <div class="project-card" data-category="data-analysis">
+                        <div class="project-image">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop" alt="Financial Analysis">
+                        </div>
+                        <div class="project-info">
+                            <h3>Financial Data Analysis</h3>
+                            <p>Comprehensive analysis of financial time series data to identify market trends and investment opportunities.</p>
+                            <div class="project-tech">
+                                <span>R</span>
+                                <span>ggplot2</span>
+                                <span>Tableau</span>
+                                <span>Prophet</span>
+                            </div>
+                            <button class="project-details-btn">View Details</button>
+                        </div>
+                    </div>
+                    
+                    <!-- NLP Project -->
+                    <div class="project-card" data-category="machine-learning">
+                        <div class="project-image">
+                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&h=400&fit=crop" alt="NLP Project">
+                        </div>
+                        <div class="project-info">
+                            <h3>Natural Language Processing</h3>
+                            <p>Text classification and sentiment analysis model for customer feedback with 89% accuracy in categorization.</p>
+                            <div class="project-tech">
+                                <span>NLTK</span>
+                                <span>TensorFlow</span>
+                                <span>BERT</span>
+                                <span>spaCy</span>
+                            </div>
+                            <button class="project-details-btn">View Details</button>
                         </div>
                     </div>
                 </div>
@@ -431,23 +1059,18 @@
         <!-- Contact Section -->
         <section id="contact" class="section contact-section">
             <div class="container">
-                <h2 class="section-title reveal-item">Get In Touch</h2>
+                <h2 class="section-title">Get In Touch</h2>
                 <div class="contact-content">
-                    <div class="contact-info reveal-item">
+                    <div class="contact-info">
                         <h3>Contact Information</h3>
                         <div class="contact-details">
                             <div class="contact-item">
                                 <i class="fas fa-envelope"></i>
-                                <div class="contact-text">
-                                    <span id="emailAddress">seba.chace@gmail.com</span>
-                                    <button class="copy-btn" data-copy="seba.chace@gmail.com">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
+                                <span>seba.chace@gmail.com</span>
                             </div>
                             <div class="contact-item">
                                 <i class="fas fa-map-marker-alt"></i>
-                                <span>Currenty working in Milan, Italy</span>
+                                <span>Currently working in Milan, Italy</span>
                             </div>
                         </div>
                         
@@ -460,14 +1083,14 @@
                                 <a href="https://www.linkedin.com/in/sebastian-chace-esteva/" target="_blank" class="social-icon">
                                     <i class="fab fa-linkedin-in"></i>
                                 </a>
-                                <a href="https://kaggle.com/" target="_blank" class="social-icon">
+                                <a href="#" target="_blank" class="social-icon">
                                     <i class="fab fa-kaggle"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="contact-form-container reveal-item">
+                    <div class="contact-form-container">
                         <h3>Send Me a Message</h3>
                         <form id="contactForm" class="contact-form">
                             <div class="form-group">
@@ -494,17 +1117,53 @@
         </section>
     </main>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2025 Your Name. All Rights Reserved.</p>
-                <p>Designed and built with <span class="accent">❤</span></p>
-            </div>
-        </div>
-    </footer>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <script src="js/script.js"></script>
+    <script>
+        // Initialize particles.js
+        if (typeof particlesJS !== 'undefined') {
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 50, density: { enable: true, value_area: 800 } },
+                    color: { value: '#64ffda' },
+                    shape: { type: 'circle' },
+                    opacity: { value: 0.5 },
+                    size: { value: 3, random: true },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: '#64ffda',
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 1,
+                        direction: 'none',
+                        random: false,
+                        straight: false,
+                        out_mode: 'out',
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: 'canvas',
+                    events: {
+                        onhover: { enable: true, mode: 'grab' },
+                        onclick: { enable: true, mode: 'push' },
+                        resize: true
+                    },
+                    modes: {
+                        grab: { distance: 140, line_linked: { opacity: 1 } },
+                        push: { particles_nb: 4 }
+                    }
+                },
+                retina_detect: true
+            });
+        }
+
+    </script>
 </body>
 </html>
