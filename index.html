@@ -1352,21 +1352,33 @@
                         </div>
                     </div>
                     
-                    <!-- Data Analysis Project -->
+                    <!-- Optimization Visualization Project -->
                     <div class="project-card" data-category="data-analysis">
                         <div class="project-image">
-                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop" alt="Worker Assignment Optimization">
+                            <div class="network-preview">
+                                <div class="preview-nodes">
+                                    <div class="preview-node" style="background: #4facfe;"></div>
+                                    <div class="preview-node" style="background: #00f2fe;"></div>
+                                    <div class="preview-node" style="background: #4facfe;"></div>
+                                    <div class="preview-node" style="background: #00f2fe;"></div>
+                                    <div class="preview-node" style="background: #4facfe;"></div>
+                                    <div class="preview-node" style="background: #00f2fe;"></div>
+                                </div>
+                                <div class="preview-overlay">
+                                    Interactive Matching
+                                </div>
+                            </div>
                         </div>
                         <div class="project-info">
-                            <h3>Worker Assignment Optimization</h3>
-                            <p>THIS IS A PLACEHOLDER; IGNORE IT</p>
+                            <h3>Workforce Assignment Optimization</h3>
+                            <p>Interactive client-salesperson matching algorithm with real-time visualization of multi-objective optimization process.</p>
                             <div class="project-tech">
-                                <span>GCP</span>
-                                <span>Python</span>
-                                <span>Parallel Programming</span>
-                                <span>Advanced Algorithms</span>
+                                <span>JavaScript</span>
+                                <span>Optimization Algorithms</span>
+                                <span>Interactive Visualization</span>
+                                <span>Multi-Objective Scoring</span>
                             </div>
-                            <button class="project-details-btn">View Details</button>
+                            <button class="project-details-btn" onclick="openOptimizationViz()">View Interactive Demo</button>
                         </div>
                     </div>
                     
@@ -1554,10 +1566,70 @@
         </div>
     </div>
 
+    <!-- Optimization Visualization Modal -->
+    <div class="viz-modal" id="optimizationVizModal">
+        <div class="viz-close" onclick="closeOptimizationViz()">
+            <i class="fas fa-times"></i>
+        </div>
+        
+        <div id="optimizationVizContainer">
+            <div class="viz-content">
+                <!-- Visualization Section (Left 2/3) -->
+                <div class="viz-visualization" id="optimizationVizVisualization">
+                    <!-- The optimization visualization will be rendered here -->
+                </div>
+                
+                <!-- Description Section (Right 1/3) -->
+                <div class="viz-description">
+                    <h3 style="color: var(--accent-color); margin-bottom: var(--space-2);">Workforce Assignment Optimization</h3>
+                    
+                    <div style="margin-bottom: var(--space-1); font-size: 0.85em;">
+                        <h4 style="color: var(--text-primary); margin-bottom: var(--space-1);">Project Overview</h4>
+                        <p style="color: var(--text-secondary);">
+                            <strong style="color: var(--accent-color);">Multi-objective optimization algorithm</strong> that matches clients with salespeople 
+                            based on skills, capacity, revenue potential, and efficiency scores in real-time.
+                        </p>
+                    </div>
+                    
+                    <div style="margin-bottom: var(--space-1); font-size: 0.85em;">
+                        <h4 style="color: var(--text-primary); margin-bottom: var(--space-1);">Features</h4>
+                        <ul style="color: var(--text-secondary); line-height: 1.6; padding-left: var(--space-2);">
+                            <li style="margin-bottom: 0.5rem;">⚡ <strong>Real-time matching:</strong> Dynamic assignment visualization</li>
+                            <li style="margin-bottom: 0.5rem;">🎯 <strong>Multi-objective:</strong> Balances satisfaction, revenue, and workload</li>
+                            <li style="margin-bottom: 0.5rem;">🔄 <strong>Adaptive:</strong> Handles urgent clients and capacity changes</li>
+                            <li style="margin-bottom: 0.5rem;">📊 <strong>Scoring system:</strong> Weighted compatibility matrix</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-bottom: var(--space-2);font-size: 0.85em;">
+                        <h4 style="color: var(--text-primary);">Algorithm Insights</h4>
+                        <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.9rem;">
+                            The algorithm evaluates <strong style="color: var(--accent-color);">skill compatibility</strong>, 
+                            <strong style="color: var(--accent-color);">revenue potential</strong>, and 
+                            <strong style="color: var(--accent-color);">workload distribution</strong> to create optimal assignments. 
+                            Random events simulate real-world dynamics like urgent requests and capacity changes.
+                        </p>
+                    </div>
+
+                    <div style="font-size: 0.85em;">
+                        <h4 style="color: var(--text-primary); margin-bottom: var(--space-1);">Technologies</h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">JavaScript</span>
+                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Optimization Algorithms</span>
+                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Interactive Visualization</span>
+                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Multi-Objective Scoring</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <script src="js/script.js"></script>
     <script src="js/network-visualization.js"></script>
+    <script src="js/optimization-visualization.js"></script>
     <script>
         // Initialize particles.js
         if (typeof particlesJS !== 'undefined') {
