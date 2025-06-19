@@ -1133,6 +1133,237 @@
                 border-top: 1px solid var(--accent-color);
             }
         }
+
+        /* NLP Visualization Styles */
+        #nlpVizVisualization {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            padding: 20px;
+            border-radius: 5px;
+            color: white;
+            font-family: 'Arial', sans-serif;
+        }
+
+        #nlpVizVisualization h1 {
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 2.2em;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        #nlpVisualization {
+            width: 100%;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .nlp-point {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            transition: all 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 10;
+        }
+
+        .nlp-connection-line {
+            position: absolute;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+            transform-origin: left center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 5;
+        }
+
+        .nlp-cluster-center {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 15;
+        }
+
+        .nlp-cluster-center::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            animation: nlp-pulse 2s infinite;
+        }
+
+        @keyframes nlp-pulse {
+            0% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.5); opacity: 0.1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        .nlp-cluster-label {
+            position: absolute;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 12px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 20;
+        }
+
+        .controls-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .controls button {
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .controls button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .start-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+        }
+
+        .reset-btn {
+            background: linear-gradient(45deg, #4ecdc4, #44bd87);
+            color: white;
+        }
+
+        .step-btn {
+            background: linear-gradient(45deg, #a55eea, #8b5cf6);
+            color: white;
+        }
+
+        .or-divider {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .stage-indicator {
+            margin: 0;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            white-space: nowrap;
+        }
+
+        .metrics-panel {
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 90%;
+            margin: 5px auto;
+        }
+
+        .metric-item {
+            margin: 10px 0;
+            font-size: 16px;
+            opacity: 0;
+            transition: opacity .5s ease-in-out;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .metric-label {
+            color: #4ecdc4;
+            font-weight: bold;
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .metric-value {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: bold;
+            display: block;
+        }
+
+        .sentiment-notification {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 25;
+        }
+
+        .sentiment-indicator {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 0 5px;
+            border-radius: 15px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -1257,6 +1488,19 @@
                             <div class="timeline-dot"></div>
                             <div class="timeline-content">
                                 <div class="timeline-date">2021 - 2023</div>
+                                <div class="timeline-title">Senior Data Scientist & AI Engineer</div>
+                                <div class="timeline-company">BCI Bank</div>
+                                <div class="timeline-description">
+                                    Core member of a three-person analytics team supporting the Investments group under the bank’s 2030 Strategy. 
+                                    Built data pipelines and experiments and models for my stakeholders
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-date">2018 - 2021</div>
                                 <div class="timeline-title">Data Scientist & Analytics Consultant</div>
                                 <div class="timeline-company">Financial Services - Latin America</div>
                                 <div class="timeline-description">
@@ -1268,23 +1512,11 @@
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
                             <div class="timeline-content">
-                                <div class="timeline-date">2019 - 2021</div>
-                                <div class="timeline-title">University Lecturer & Researcher</div>
-                                <div class="timeline-company">Academia - Forecasting & Statistics</div>
+                                <div class="timeline-date">2015 - 2019</div>
+                                <div class="timeline-title">Teaching Assistante</div>
+                                <div class="timeline-company">Various Courses - Undergrad&Grad Level</div>
                                 <div class="timeline-description">
-                                    Taught forecasting courses and conducted research in statistical modeling and time series analysis.
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="timeline-content">
-                                <div class="timeline-date">2017 - 2019</div>
-                                <div class="timeline-title">Junior Data Analyst</div>
-                                <div class="timeline-company">Various Industries - Entry Level</div>
-                                <div class="timeline-description">
-                                    Started career in data analysis across logistics, chemical, and other industries, building foundation in analytics and problem-solving.
+                                    Taught and supportrf university courses in logistics, programming, data modelling, building foundations in analytics and problem-solving.
                                 </div>
                             </div>
                         </div>
@@ -1341,7 +1573,8 @@
                         </div>
                         <div class="project-info">
                             <h3>Predictive Analytics Model</h3>
-                            <p>A machine learning model for predicting customer behavior using historical transaction data with 92% accuracy.</p>
+                            <p>A machine learning model tuning risk indicators in one of Italy's biggest banks, abstracting non business-related rules from empirical data, allowing the client to reduce total effort to resolve alerts.
+                            </p>
                             <div class="project-tech">
                                 <span>Python</span>
                                 <span>scikit-learn</span>
@@ -1389,14 +1622,14 @@
                         </div>
                         <div class="project-info">
                             <h3>Natural Language Processing</h3>
-                            <p>Text classification and sentiment analysis model for customer feedback with 89% accuracy in categorization.</p>
+                            <p>Text classification and sentiment analysis model to offload 70% of requests from a callcenter to a FAQ Section</p>
                             <div class="project-tech">
                                 <span>NLTK</span>
                                 <span>TensorFlow</span>
                                 <span>BERT</span>
-                                <span>spaCy</span>
+                                <span>Tokenization</span>
                             </div>
-                            <button class="project-details-btn">View Details</button>
+                            <button class="project-details-btn" onclick="openNlpViz()">View Interactive Demo</button>
                         </div>
                     </div>
                 </div>
@@ -1625,11 +1858,112 @@
         </div>
     </div>
 
+    <!-- NLP Visualization Modal -->
+    <div class="viz-modal" id="nlpVizModal">
+        <div class="viz-close" onclick="closeNlpViz()">
+            <i class="fas fa-times"></i>
+        </div>
+        
+        <div id="nlpVizContainer">
+            <div class="viz-content">
+                <!-- Visualization Section (Left 2/3) -->
+                <div class="viz-visualization" id="nlpVizVisualization">
+                    <h1>💬 Conversation Analysis Study</h1>
+                    
+                    <div class="controls-container">
+                        <div class="controls">
+                            <button class="start-btn" onclick="startNlpAnalysis()">Start Analysis</button>
+                            <div class="or-divider">OR</div>
+                            <button class="step-btn" onclick="nextNlpStep()">Next Step</button>
+                            <button class="reset-btn" onclick="resetNlpVisualization()">Reset</button>
+                        </div>
+                        
+                        <div class="stage-indicator" id="nlpStageIndicator">
+                            Ready to analyze conversation data and extract FAQ themes
+                        </div>
+                    </div>
+
+                    <div class="metrics-panel">
+                        <div class="metric-item" id="nlpMetric1">
+                            <span class="metric-label">Unique Conversations:</span>
+                            <span class="metric-value">120</span>
+                        </div>
+                        <div class="metric-item" id="nlpMetric2">
+                            <span class="metric-label">Analysis Variables:</span>
+                            <span class="metric-value">3</span>
+                        </div>
+                        <div class="metric-item" id="nlpMetric4">
+                            <span class="metric-label">Clusters Found:</span>
+                            <span class="metric-value">7</span>
+                        </div>
+                        <div class="metric-item" id="nlpMetric5">
+                            <span class="metric-label">Top 2 Themes:</span>
+                            <span class="metric-value">70% coverage</span>
+                        </div>
+                    </div>
+
+                    <div id="nlpVisualization">
+                        <div class="sentiment-notification" id="nlpSentimentNotification">
+                            <div>🔍 Analyzing Sentiment</div>
+                            <div style="margin-top: 10px; font-size: 16px;">
+                                <span class="sentiment-indicator" style="background: #e74c3c;">Negative</span>
+                                <span class="sentiment-indicator" style="background: #3498db;">Positive</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Description Section (Right 1/3) -->
+                <div class="viz-description">
+                    <h3 style="color: var(--accent-color); margin-bottom: var(--space-2);">Natural Language Processing</h3>
+                    
+                    <div style="margin-bottom: var(--space-1); font-size: 0.85em;">
+                        <h4 style="color: var(--text-primary); margin-bottom: var(--space-1);">Project Overview</h4>
+                        <p style="color: var(--text-secondary);">
+                            <strong style="color: var(--accent-color);">Text classification and sentiment analysis model</strong> that analyzes customer conversations 
+                            to automatically categorize them into FAQ themes, reducing callcenter workload by 70%.
+                        </p>
+                    </div>
+                    
+                    <div style="margin-bottom: var(--space-1); font-size: 0.85em;">
+                        <h4 style="color: var(--text-primary); margin-bottom: var(--space-1);">Features</h4>
+                        <ul style="color: var(--text-secondary); line-height: 1.6; padding-left: var(--space-2);">
+                            <li style="margin-bottom: 0.5rem;">🔍 <strong>Text Analysis:</strong> K-means clustering of conversation data</li>
+                            <li style="margin-bottom: 0.5rem;">😊 <strong>Sentiment Detection:</strong> Positive/negative emotion classification</li>
+                            <li style="margin-bottom: 0.5rem;">📊 <strong>Theme Extraction:</strong> Automatic FAQ category generation</li>
+                            <li style="margin-bottom: 0.5rem;">⚡ <strong>Real-time Processing:</strong> Live conversation clustering</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin-bottom: var(--space-2);font-size: 0.85em;">
+                        <h4 style="color: var(--text-primary);">Algorithm Insights</h4>
+                        <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.9rem;">
+                            The system processes <strong style="color: var(--accent-color);">120 unique conversations</strong> using K-means clustering 
+                            to identify <strong style="color: var(--accent-color);">7 main themes</strong>. Sentiment analysis helps prioritize 
+                            negative feedback, while the top 2 themes cover <strong style="color: var(--accent-color);">70% of inquiries</strong>.
+                        </p>
+                    </div>
+
+                    <div style="font-size: 0.85em;">
+                        <h4 style="color: var(--text-primary); margin-bottom: var(--space-1);">Technologies</h4>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">NLTK</span>
+                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">TensorFlow</span>
+                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">BERT</span>
+                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Tokenization</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <script src="js/script.js"></script>
     <script src="js/network-visualization.js"></script>
     <script src="js/optimization-visualization.js"></script>
+    <script src="js/nlp-visualization.js"></script>
     <script>
         // Initialize particles.js
         if (typeof particlesJS !== 'undefined') {
