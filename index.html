@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Data Science Portfolio - Showcasing projects and skills in data analysis, machine learning, and visualization">
-    <title>Data Science Portfolio</title>
+    <meta name="description" content="Sebastian Chace — Sr. Data Scientist & ML Engineer. Projects in optimization, machine learning, and NLP.">
+    <meta property="og:title" content="Sebastian Chace — Data Science Portfolio">
+    <meta property="og:description" content="Sr. Data Scientist & ML Engineer. Projects in optimization, machine learning, and NLP.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sebachace.github.io">
+    <meta property="og:image" content="https://sebachace.github.io/images/IMG_6596.JPG">
+    <title>Sebastian Chace — Data Science Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1355,6 +1360,26 @@
             z-index: 25;
         }
 
+        /* Form status feedback */
+        .form-status {
+            padding: 0.75rem;
+            border-radius: var(--border-radius);
+            margin-top: 0.5rem;
+            display: none;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+        .form-status.success {
+            background-color: rgba(100, 255, 218, 0.1);
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+        }
+        .form-status.error {
+            background-color: rgba(255, 107, 107, 0.1);
+            color: #ff6b6b;
+            border: 1px solid #ff6b6b;
+        }
+
         .sentiment-indicator {
             display: inline-block;
             padding: 5px 10px;
@@ -1364,6 +1389,194 @@
             font-size: 14px;
             font-weight: bold;
         }
+
+        /* ===== Project Details Modal ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 25, 47, 0.95);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 2rem 0;
+        }
+        .modal.active {
+            display: block;
+        }
+        .modal-content {
+            background-color: var(--primary-light);
+            max-width: 900px;
+            width: 90%;
+            margin: 2rem auto;
+            border-radius: var(--border-radius);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            z-index: 10;
+        }
+        .close-modal:hover { color: var(--accent-color); }
+        .modal-body { padding: 2rem; }
+        .modal-body h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+        }
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+        .modal-image img { width: 100%; height: 100%; object-fit: cover; }
+        .modal-description h3 {
+            font-size: 1.1rem;
+            margin: 1.5rem 0 0.5rem;
+            color: var(--text-primary);
+        }
+        .modal-description p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        .modal-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        .modal-tech span {
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            background-color: rgba(100, 255, 218, 0.1);
+            padding: 0.25rem 0.6rem;
+            border-radius: 15px;
+        }
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+            z-index: 2;
+            text-decoration: none;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+        /* Typing cursor */
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background-color: var(--accent-color);
+            margin-left: 4px;
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        /* Copy email button */
+        .contact-text {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .copy-btn {
+            background: none;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            color: var(--accent-color);
+            border-radius: 4px;
+            padding: 2px 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: background 0.2s;
+        }
+        .copy-btn:hover { background: rgba(100, 255, 218, 0.1); }
+        /* Footer */
+        .site-footer {
+            background: var(--primary-dark, #051124);
+            padding: 2rem 0 1.5rem;
+            border-top: 1px solid rgba(100, 255, 218, 0.1);
+        }
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .footer-logo a {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        .footer-nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .footer-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .footer-nav a:hover { color: var(--accent-color); }
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+        .footer-social a {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            transition: color 0.2s;
+        }
+        .footer-social a:hover { color: var(--accent-color); }
+        .footer-copy {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin: 0;
+        }
+        /* Back to top */
+        #backToTop {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--accent-color);
+            color: var(--primary-color);
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 1rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, transform 0.2s;
+            z-index: 999;
+        }
+        #backToTop.visible { opacity: 1; visibility: visible; }
+        #backToTop:hover { transform: translateY(-3px); }
     </style>
 </head>
 <body>
@@ -1371,7 +1584,7 @@
     <header>
         <nav class="navbar">
             <div class="logo">
-                <a href="#home">DS<span class="accent">.</span></a>
+                <a href="#home">SC<span class="accent">.</span></a>
             </div>
             <div class="nav-toggle" id="navToggle">
                 <span></span>
@@ -1399,6 +1612,7 @@
                         <a href="resources/Resume Seb ENG_2025.pdf" download class="btn primary-btn">
                             <i class="fas fa-download"></i> Download Resume
                         </a>
+                        <a href="#projects" class="btn secondary-btn">View My Work</a>
                     </div>
                 </div>
                 <div class="home-image">
@@ -1409,6 +1623,9 @@
                     </div>
                 </div>
             </div>
+            <a href="#about" class="scroll-indicator" aria-label="Scroll down">
+                <i class="fas fa-chevron-down"></i>
+            </a>
             <div id="particles-js"></div>
         </section>
 
@@ -1513,10 +1730,10 @@
                             <div class="timeline-dot"></div>
                             <div class="timeline-content">
                                 <div class="timeline-date">2015 - 2019</div>
-                                <div class="timeline-title">Teaching Assistante</div>
+                                <div class="timeline-title">Teaching Assistant</div>
                                 <div class="timeline-company">Various Courses - Undergrad&Grad Level</div>
                                 <div class="timeline-description">
-                                    Taught and supportrf university courses in logistics, programming, data modelling, building foundations in analytics and problem-solving.
+                                    Taught and supported university courses in logistics, programming, data modelling, building foundations in analytics and problem-solving.
                                 </div>
                             </div>
                         </div>
@@ -1569,7 +1786,7 @@
                     <!-- Machine Learning Project -->
                     <div class="project-card" data-category="machine-learning">
                         <div class="project-image">
-                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop" alt="Predictive Analytics">
+                            <img src="images/Intelligent_Dashboarding.jpeg" alt="Predictive Analytics">
                         </div>
                         <div class="project-info">
                             <h3>Predictive Analytics Model</h3>
@@ -1618,7 +1835,7 @@
                     <!-- NLP Project -->
                     <div class="project-card" data-category="machine-learning">
                         <div class="project-image">
-                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&h=400&fit=crop" alt="NLP Project">
+                            <img src="images/conversation_analysis.png" alt="NLP Project">
                         </div>
                         <div class="project-info">
                             <h3>Natural Language Processing</h3>
@@ -1646,7 +1863,12 @@
                         <div class="contact-details">
                             <div class="contact-item">
                                 <i class="fas fa-envelope"></i>
-                                <span>seba.chace@gmail.com</span>
+                                <div class="contact-text">
+                                    <span>seba.chace@gmail.com</span>
+                                    <button class="copy-btn" data-copy="seba.chace@gmail.com" title="Copy email">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="contact-item">
                                 <i class="fas fa-map-marker-alt"></i>
@@ -1663,7 +1885,7 @@
                                 <a href="https://www.linkedin.com/in/sebastian-chace-esteva/" target="_blank" class="social-icon">
                                     <i class="fab fa-linkedin-in"></i>
                                 </a>
-                                <a href="#" target="_blank" class="social-icon">
+                                <a href="https://www.kaggle.com/oddyseusjourney" target="_blank" class="social-icon">
                                     <i class="fab fa-kaggle"></i>
                                 </a>
                             </div>
@@ -1690,12 +1912,35 @@
                                 <textarea id="message" name="message" rows="5" required></textarea>
                             </div>
                             <button type="submit" class="btn primary-btn">Send Message</button>
+                            <div id="formStatus" class="form-status"></div>
                         </form>
                     </div>
                 </div>
             </div>
         </section>
     </main>
+
+    <!-- Project Details Modal -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <h2 id="modalTitle"></h2>
+                <div class="modal-image">
+                    <img id="modalImage" src="" alt="Project">
+                </div>
+                <div class="modal-description">
+                    <h3>Overview</h3>
+                    <p id="modalDescription"></p>
+                    <h3>Methodology</h3>
+                    <p id="modalMethodology"></p>
+                    <h3>Results</h3>
+                    <p id="modalResults"></p>
+                </div>
+                <div class="modal-tech" id="modalTech"></div>
+            </div>
+        </div>
+    </div>
 
     <!-- Network Visualization Modal -->
     <div class="viz-modal" id="vizModal">
@@ -1755,7 +2000,11 @@
                 <!-- Description Section (Right 1/3) -->
                 <div class="viz-description">
                     <h3 style="color: var(--accent-color); margin-bottom: var(--space-2);">Country-wide Shipping Optimization</h3>
-                    
+
+                    <div style="margin-bottom: var(--space-2);">
+                        <img src="images/Designer.jpeg" alt="Shipping Network" style="width:100%; border-radius: var(--border-radius); object-fit: cover; max-height: 160px;">
+                    </div>
+
                     <div style="margin-bottom: var(--space-1); font-size: 0.85em;">
                         <h4 style="color: var(--text-primary); margin-bottom: var(--space-1);">Project Overview</h4>
                         <p style="color: var(--text-secondary); ">
@@ -1883,7 +2132,7 @@
                         </div>
                     </div>
 
-                    <div class="metrics-panel">
+                    <div class="metrics-panel" id="nlpMetricsPanel" style="display: none;">
                         <div class="metric-item" id="nlpMetric1">
                             <span class="metric-label">Unique Conversations:</span>
                             <span class="metric-value">120</span>
@@ -1957,6 +2206,32 @@
             </div>
         </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="#home">SC<span class="accent">.</span></a>
+                </div>
+                <nav class="footer-nav">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+                <div class="footer-social">
+                    <a href="https://github.com/sebachace" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/sebastian-chace-esteva/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.kaggle.com/oddyseusjourney" target="_blank" aria-label="Kaggle"><i class="fab fa-kaggle"></i></a>
+                </div>
+            </div>
+            <p class="footer-copy">&copy; 2025 Sebastian Chace. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Back to top -->
+    <button id="backToTop" aria-label="Back to top"><i class="fas fa-chevron-up"></i></button>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>

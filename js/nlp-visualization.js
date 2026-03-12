@@ -36,6 +36,7 @@ let nlpIsAnimating = false;
 // Modal control functions
 function openNlpViz() {
     document.getElementById('nlpVizModal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
     setTimeout(() => {
         createNlpPoints();
     }, 100);
@@ -43,6 +44,7 @@ function openNlpViz() {
 
 function closeNlpViz() {
     document.getElementById('nlpVizModal').style.display = 'none';
+    document.body.style.overflow = '';
     resetNlpVisualization();
 }
 
@@ -107,6 +109,8 @@ function createNlpPoints() {
 }
 
 function showNlpMetrics() {
+    const panel = document.getElementById('nlpMetricsPanel');
+    if (panel) panel.style.display = 'flex';
     const metrics = ['nlpMetric1', 'nlpMetric2', 'nlpMetric4', 'nlpMetric5'];
     metrics.forEach((id, index) => {
         setTimeout(() => {
@@ -342,6 +346,8 @@ async function nextNlpStep() {
 function resetNlpVisualization() {
     nlpCurrentStep = 0;
     updateNlpStageIndicator(0);
+    const panel = document.getElementById('nlpMetricsPanel');
+    if (panel) panel.style.display = 'none';
     document.querySelectorAll('#nlpMetric1, #nlpMetric2, #nlpMetric4, #nlpMetric5').forEach(item => {
         item.style.opacity = '0';
     });

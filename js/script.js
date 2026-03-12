@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
   initScrollReveal();
   initContactForm();
   initCopyEmail();
-  initParticles();
+  initBackToTop();
+  initTypingAnimation();
 });
 
 /**
@@ -73,6 +74,16 @@ function initNavigation() {
           navToggle.classList.remove('active');
       });
   });
+
+  // Close mobile menu when clicking outside
+  document.addEventListener('click', function(e) {
+      if (navLinks.classList.contains('active') &&
+          !navLinks.contains(e.target) &&
+          !navToggle.contains(e.target)) {
+          navLinks.classList.remove('active');
+          navToggle.classList.remove('active');
+      }
+  });
 }
 
 /**
@@ -92,12 +103,15 @@ function initProjectFilters() {
           
           const filter = this.getAttribute('data-filter');
           
-          // Show/hide projects based on filter
+          // Show/hide projects based on filter with fade transition
           projectCards.forEach(card => {
-              if (filter === 'all' || card.getAttribute('data-category') === filter) {
+              const matches = filter === 'all' || card.getAttribute('data-category') === filter;
+              if (matches) {
                   card.style.display = 'flex';
+                  requestAnimationFrame(() => { card.style.opacity = '1'; });
               } else {
-                  card.style.display = 'none';
+                  card.style.opacity = '0';
+                  setTimeout(() => { card.style.display = 'none'; }, 250);
               }
           });
       });
@@ -108,67 +122,36 @@ function initProjectFilters() {
 * Project modals functionality
 */
 function initProjectModals() {
-  const projectBtns = document.querySelectorAll('.project-details-btn');
+  // Only apply to cards that don't have their own custom viz modal (no onclick attribute)
+  const projectBtns = document.querySelectorAll('.project-details-btn:not([onclick])');
   const modal = document.getElementById('projectModal');
   const closeModal = document.querySelector('.close-modal');
-  
-  // Sample project data (replace with your actual projects)
+
+  if (!modal) return;
+
   const projectData = [
       {
           title: "Predictive Analytics Model",
-          description: "A machine learning model for predicting customer behavior using historical transaction data.",
-          methodology: "Applied various supervised learning algorithms including Random Forest, Gradient Boosting, and Neural Networks. Performed extensive feature engineering and hyperparameter tuning to optimize model performance.",
-          results: "Achieved 92% prediction accuracy, resulting in a 15% increase in customer retention and $2M in annual revenue increase for the client.",
-          technologies: ["Python", "scikit-learn", "Pandas", "TensorFlow", "AWS SageMaker"],
-          image: "https://via.placeholder.com/900x600",
-          codeLink: "https://github.com/",
-          demoLink: "#"
-      },
-      {
-          title: "Financial Data Analysis",
-          description: "Comprehensive analysis of financial time series data to identify market trends and patterns.",
-          methodology: "Utilized time series decomposition, ARIMA modeling, and anomaly detection algorithms to analyze historical stock data and identify patterns.",
-          results: "Developed a trading strategy that outperformed market benchmarks by 7% annually in backtesting, with clear visualization of market trends.",
-          technologies: ["R", "ggplot2", "Tableau", "tidyverse", "Prophet"],
-          image: "https://via.placeholder.com/900x600",
-          codeLink: "https://github.com/",
-          demoLink: "#"
-      },
-      {
-          title: "Interactive Data Dashboard",
-          description: "Interactive visualization dashboard for exploring and analyzing complex datasets.",
-          methodology: "Designed and implemented an interactive dashboard using D3.js for visualizing multidimensional data. Applied principles of effective data visualization to present complex information clearly.",
-          results: "Created a user-friendly dashboard that allows stakeholders to explore data, filter results, and export findings, leading to more data-driven decision making.",
-          technologies: ["D3.js", "JavaScript", "HTML/CSS", "SVG", "JSON"],
-          image: "https://via.placeholder.com/900x600",
-          codeLink: "https://github.com/",
-          demoLink: "#"
-      },
-      {
-          title: "Natural Language Processing",
-          description: "Text classification and sentiment analysis model for customer feedback.",
-          methodology: "Preprocessed and tokenized text data, applied BERT-based models for sentiment analysis and text classification. Used data augmentation to handle class imbalance.",
-          results: "Built a model with 89% accuracy in classifying customer feedback into categories, enabling automated routing and prioritization of customer issues.",
-          technologies: ["NLTK", "TensorFlow", "BERT", "spaCy", "Python"],
-          image: "https://via.placeholder.com/900x600",
-          codeLink: "https://github.com/",
-          demoLink: "#"
+          description: "A machine learning model tuning risk indicators in one of Italy's biggest banks, abstracting non-business-related rules from empirical data, allowing the client to reduce total effort to resolve alerts.",
+          methodology: "Applied supervised learning algorithms including Random Forest, Gradient Boosting, and Neural Networks. Performed extensive feature engineering and hyperparameter tuning to optimize model performance within strict regulatory constraints.",
+          results: "The model successfully reduced false positive alerts, significantly cutting manual review effort for the compliance team and improving overall operational efficiency.",
+          technologies: ["Python", "scikit-learn", "Pandas", "TensorFlow"],
+          image: "images/Intelligent_Dashboarding.jpeg"
       }
   ];
-  
+
   // Open modal with project details
   projectBtns.forEach((btn, index) => {
       btn.addEventListener('click', function() {
           const project = projectData[index];
-          
-          // Populate modal with project data
+          if (!project) return;
+
           document.getElementById('modalTitle').textContent = project.title;
           document.getElementById('modalImage').src = project.image;
           document.getElementById('modalDescription').textContent = project.description;
           document.getElementById('modalMethodology').textContent = project.methodology;
           document.getElementById('modalResults').textContent = project.results;
-          
-          // Add technologies
+
           const techContainer = document.getElementById('modalTech');
           techContainer.innerHTML = '';
           project.technologies.forEach(tech => {
@@ -176,14 +159,9 @@ function initProjectModals() {
               span.textContent = tech;
               techContainer.appendChild(span);
           });
-          
-          // Set links
-          document.getElementById('codeLink').href = project.codeLink;
-          document.getElementById('demoLink').href = project.demoLink;
-          
-          // Show modal
+
           modal.classList.add('active');
-          document.body.style.overflow = 'hidden'; // Prevent background scrolling
+          document.body.style.overflow = 'hidden';
       });
   });
   
@@ -201,12 +179,16 @@ function initProjectModals() {
       }
   });
   
-  // Close modal with ESC key
+  // Close modal with ESC key (covers project modal + all viz modals)
   document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && modal.classList.contains('active')) {
+      if (e.key !== 'Escape') return;
+      if (modal.classList.contains('active')) {
           modal.classList.remove('active');
           document.body.style.overflow = 'auto';
       }
+      if (typeof closeNetworkViz === 'function') closeNetworkViz();
+      if (typeof closeOptimizationViz === 'function') closeOptimizationViz();
+      if (typeof closeNlpViz === 'function') closeNlpViz();
   });
 }
 
@@ -254,39 +236,66 @@ function initScrollReveal() {
 }
 
 /**
-* Contact form validation and submission
+* Contact form validation and submission via Formspree
 */
 function initContactForm() {
   const contactForm = document.getElementById('contactForm');
-  
+
   if (contactForm) {
-      contactForm.addEventListener('submit', function(e) {
+      contactForm.addEventListener('submit', async function(e) {
           e.preventDefault();
-          
-          // Get form values
+
           const name = document.getElementById('name').value.trim();
           const email = document.getElementById('email').value.trim();
           const subject = document.getElementById('subject').value.trim();
           const message = document.getElementById('message').value.trim();
-          
-          // Validate form
+
           if (name === '' || email === '' || subject === '' || message === '') {
-              alert('Please fill out all fields');
+              showFormStatus('Please fill out all fields.', 'error');
               return;
           }
-          
-          // Validate email format
+
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           if (!emailRegex.test(email)) {
-              alert('Please enter a valid email address');
+              showFormStatus('Please enter a valid email address.', 'error');
               return;
           }
-          
-          // In a real scenario, you would send this data to your server
-          // For the template, we'll just show a success message
-          alert('Thank you for your message! I will get back to you soon.');
-          contactForm.reset();
+
+          const submitBtn = contactForm.querySelector('button[type="submit"]');
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Sending…';
+
+          try {
+              // Replace YOUR_FORMSPREE_ID with your actual form ID from formspree.io
+              const response = await fetch('https://formspree.io/f/xqedvlrj', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ name, email, subject, message })
+              });
+
+              if (response.ok) {
+                  showFormStatus('Thank you! Your message has been sent.', 'success');
+                  contactForm.reset();
+              } else {
+                  showFormStatus('Something went wrong. Please try again or email me directly.', 'error');
+              }
+          } catch (err) {
+              showFormStatus('Something went wrong. Please try again or email me directly.', 'error');
+          } finally {
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Send Message';
+          }
       });
+  }
+}
+
+function showFormStatus(message, type) {
+  const statusEl = document.getElementById('formStatus');
+  if (statusEl) {
+      statusEl.textContent = message;
+      statusEl.className = 'form-status ' + type;
+      statusEl.style.display = 'block';
+      setTimeout(() => { statusEl.style.display = 'none'; }, 5000);
   }
 }
 
@@ -300,17 +309,15 @@ function initCopyEmail() {
       copyBtn.addEventListener('click', function() {
           const email = this.getAttribute('data-copy');
           
-          // Create a temporary input element
-          const tempInput = document.createElement('input');
-          tempInput.value = email;
-          document.body.appendChild(tempInput);
-          
-          // Select and copy the text
-          tempInput.select();
-          document.execCommand('copy');
-          
-          // Remove the temporary input
-          document.body.removeChild(tempInput);
+          navigator.clipboard.writeText(email).catch(() => {
+              // Fallback for browsers that don't support Clipboard API
+              const tempInput = document.createElement('input');
+              tempInput.value = email;
+              document.body.appendChild(tempInput);
+              tempInput.select();
+              document.execCommand('copy');
+              document.body.removeChild(tempInput);
+          });
           
           // Show copied confirmation
           const originalText = this.innerHTML;
@@ -324,66 +331,6 @@ function initCopyEmail() {
   }
 }
 
-/**
-* Initialize particles.js background
-*/
-function initParticles() {
-  if (typeof particlesJS !== 'undefined' && document.getElementById('particles-js')) {
-      particlesJS('particles-js', {
-          particles: {
-              number: { 
-                  value: 50,
-                  density: { enable: true, value_area: 800 } 
-              },
-              color: { value: '#64ffda' },
-              shape: {
-                  type: 'circle',
-                  stroke: { width: 0, color: '#000000' }
-              },
-              opacity: {
-                  value: 0.5,
-                  random: false,
-                  anim: { enable: false }
-              },
-              size: {
-                  value: 3,
-                  random: true,
-                  anim: { enable: false }
-              },
-              line_linked: {
-                  enable: true,
-                  distance: 150,
-                  color: '#64ffda',
-                  opacity: 0.4,
-                  width: 1
-              },
-              move: {
-                  enable: true,
-                  speed: 1,
-                  direction: 'none',
-                  random: false,
-                  straight: false,
-                  out_mode: 'out',
-                  bounce: false,
-                  attract: { enable: false }
-              }
-          },
-          interactivity: {
-              detect_on: 'canvas',
-              events: {
-                  onhover: { enable: true, mode: 'grab' },
-                  onclick: { enable: true, mode: 'push' },
-                  resize: true
-              },
-              modes: {
-                  grab: { distance: 140, line_linked: { opacity: 1 } },
-                  push: { particles_nb: 4 }
-              }
-          },
-          retina_detect: true
-      });
-  }
-}
 
 /**
 * Utility function to check if element is in viewport
@@ -404,98 +351,76 @@ function isElementInViewport(el, offset = 0) {
   );
 }
 
-/**
-* Download resume functionality
-*/
-document.addEventListener('DOMContentLoaded', function() {
-  const downloadResumeBtn = document.getElementById('downloadResume');
-  
-  if (downloadResumeBtn) {
-      downloadResumeBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          
-          // In a real portfolio, this would link to an actual PDF file
-        //   alert('In the actual portfolio, this button would download your resume PDF.');
-          
-          // Example of how to trigger a download (uncomment and update when you have an actual resume file)
-          const link = document.createElement('a');
-          link.href = '/resources/Resume Seb ENG_2025.pdf';
-          link.download = 'Resume Seb ENG_2025.pdf';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          
-      });
-  }
-});
 
 /**
-* This function allows for custom theming by changing CSS variables
-* You can expose this functionality to users or use it to have multiple theme options
-* @param {Object} colors - Object containing color variables to update
+* Back-to-top button functionality
 */
-function updateTheme(colors) {
-  const root = document.documentElement;
-  
-  // Update CSS variables with new colors
-  if (colors.primary) root.style.setProperty('--primary-color', colors.primary);
-  if (colors.primaryLight) root.style.setProperty('--primary-light', colors.primaryLight);
-  if (colors.primaryDark) root.style.setProperty('--primary-dark', colors.primaryDark);
-  if (colors.accent) root.style.setProperty('--accent-color', colors.accent);
-  if (colors.textPrimary) root.style.setProperty('--text-primary', colors.textPrimary);
-  if (colors.textSecondary) root.style.setProperty('--text-secondary', colors.textSecondary);
-  if (colors.bgColor) root.style.setProperty('--bg-color', colors.bgColor);
-  if (colors.cardBg) root.style.setProperty('--card-bg', colors.cardBg);
-  
-  // If using particles.js, update particle colors as well
-  if (window.pJSDom && window.pJSDom.length > 0) {
-      const particles = window.pJSDom[0].pJS.particles;
-      
-      if (colors.accent) {
-          particles.color.value = colors.accent;
-          particles.line_linked.color = colors.accent;
+function initBackToTop() {
+  const btn = document.getElementById('backToTop');
+  if (!btn) return;
+
+  window.addEventListener('scroll', function() {
+      if (window.scrollY > 400) {
+          btn.classList.add('visible');
+      } else {
+          btn.classList.remove('visible');
       }
-      
-      // Refresh particles
-      window.pJSDom[0].pJS.fn.particlesRefresh();
-  }
+  });
+
+  btn.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 }
 
-// Example theme presets (uncomment to use)
-/*
-const themes = {
-  blue: {
-      primary: '#0a192f',
-      primaryLight: '#112240', 
-      primaryDark: '#051124',
-      accent: '#64ffda',
-      textPrimary: '#e6f1ff',
-      textSecondary: '#8892b0',
-      bgColor: '#0a192f',
-      cardBg: '#112240'
-  },
-  purple: {
-      primary: '#2d1950',
-      primaryLight: '#3b2269',
-      primaryDark: '#1e1038',
-      accent: '#bd93f9',
-      textPrimary: '#f8f8f2',
-      textSecondary: '#c0b9d6',
-      bgColor: '#2d1950',
-      cardBg: '#3b2269'
-  },
-  dark: {
-      primary: '#1a1a1a',
-      primaryLight: '#2c2c2c',
-      primaryDark: '#0f0f0f',
-      accent: '#3699ff',
-      textPrimary: '#ffffff',
-      textSecondary: '#b0b0b0',
-      bgColor: '#1a1a1a',
-      cardBg: '#2c2c2c' 
-  }
-};
-
-// To change theme:
-// updateTheme(themes.purple);
+/**
+* Cycling typewriter animation on home subtitle
 */
+function initTypingAnimation() {
+  const el = document.querySelector('.home-content h2');
+  if (!el) return;
+
+  const phrases = [
+      'Sr. Data Scientist & ML Engineer',
+      'Team builder',
+      'Empathetic listener',
+      'Realistic Optimist'
+  ];
+
+  el.textContent = '';
+  const textNode = document.createTextNode('');
+  const cursor = document.createElement('span');
+  cursor.className = 'typing-cursor';
+  el.appendChild(textNode);
+  el.appendChild(cursor);
+
+  let phraseIndex = 0;
+  let charIndex = 0;
+  let deleting = false;
+
+  function tick() {
+      const current = phrases[phraseIndex];
+      if (!deleting) {
+          charIndex++;
+          textNode.nodeValue = current.slice(0, charIndex);
+          if (charIndex === current.length) {
+              deleting = true;
+              setTimeout(tick, 2200);
+          } else {
+              setTimeout(tick, 65);
+          }
+      } else {
+          charIndex--;
+          textNode.nodeValue = current.slice(0, charIndex);
+          if (charIndex === 0) {
+              deleting = false;
+              phraseIndex = (phraseIndex + 1) % phrases.length;
+              setTimeout(tick, 350);
+          } else {
+              setTimeout(tick, 35);
+          }
+      }
+  }
+
+  tick();
+}
+

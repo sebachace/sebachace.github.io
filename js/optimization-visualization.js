@@ -838,10 +838,11 @@ class OptimizationVisualization {
 function openOptimizationViz() {
     const modal = document.getElementById('optimizationVizModal');
     modal.classList.add('active');
-    
+    document.body.style.overflow = 'hidden';
+
     // Initialize visualization if not already done
     if (!window.optViz) {
-        window.optViz = new OptimizationVisualization('optimizationVizContainer');
+        window.optViz = new OptimizationVisualization('optimizationVizVisualization');
         window.optViz.init();
     }
 }
@@ -850,6 +851,7 @@ function openOptimizationViz() {
 function closeOptimizationViz() {
     const modal = document.getElementById('optimizationVizModal');
     modal.classList.remove('active');
+    document.body.style.overflow = '';
     
     // Reset if running
     if (window.optViz && window.optViz.isRunning) {

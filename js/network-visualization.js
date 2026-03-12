@@ -99,7 +99,8 @@ const multiNodeRoutes = [
 function openNetworkViz() {
     const modal = document.getElementById('vizModal');
     modal.classList.add('active');
-    
+    document.body.style.overflow = 'hidden';
+
     // Initialize visualization after a short delay
     setTimeout(() => {
         initVizMap();
@@ -113,7 +114,8 @@ function openNetworkViz() {
 function closeNetworkViz() {
     const modal = document.getElementById('vizModal');
     modal.classList.remove('active');
-    
+    document.body.style.overflow = '';
+
     // Clean up visualization
     if (vizMap) {
         vizMap.remove();
@@ -698,6 +700,7 @@ function dragended(event, d) {
 function handleVizResize() {
     if (vizMap && document.getElementById('vizModal').classList.contains('active')) {
         const vizContainer = document.querySelector('.viz-visualization') || document.getElementById('vizMap').parentElement;
+        vizMap.invalidateSize(); // Tell Leaflet to recalculate its container dimensions
         vizSvg.attr("width", vizContainer.clientWidth).attr("height", vizContainer.clientHeight);
         updateVizMapNetwork();
         updateVizMapMovingElementsPositions();

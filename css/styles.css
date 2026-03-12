@@ -10,12 +10,12 @@
   --primary-color: #0a192f;      /* Deep blue */
   --primary-light: #112240;      /* Lighter blue */
   --primary-dark: #051124;       /* Darker blue */
-  --accent-color: #9ebee9;       /* Teal accent */
-  --text-primary: #6dc2ae;         /* Light text on dark background */
-  --text-secondary: #c6dbf7;       /* Secondary text */
-  --bg-color: #2da599;             /* Background color */
-  --card-bg: #328083;              /* Card background */
-  --overlay: rgba(174, 183, 196, 0.7); /* Overlay color */
+  --accent-color: #64ffda;       /* Teal accent */
+  --text-primary: #e6f1ff;       /* Light text on dark background */
+  --text-secondary: #8892b0;     /* Secondary text */
+  --bg-color: #0a192f;           /* Background color */
+  --card-bg: #112240;            /* Card background */
+  --overlay: rgba(10, 25, 47, 0.9); /* Overlay color */
   
   /* Spacing */
   --space-1: 0.5rem;
