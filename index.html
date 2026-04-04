@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sebastian Chace — Sr. Data Scientist & ML Engineer. Projects in optimization, machine learning, and NLP.">
-    <meta property="og:title" content="Sebastian Chace — Data Science Portfolio">
+    <meta name="description" content="Sebastian Chace || Sr. Data Scientist & ML Engineer. Projects in optimization, machine learning, and NLP.">
+    <meta property="og:title" content="Sebastian Chace || Data Science Portfolio">
     <meta property="og:description" content="Sr. Data Scientist & ML Engineer. Projects in optimization, machine learning, and NLP.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://sebachace.github.io">
     <meta property="og:image" content="https://sebachace.github.io/images/IMG_6596.JPG">
-    <title>Sebastian Chace — Data Science Portfolio</title>
+    <title>Sebastian Chace || Data Science Portfolio</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230a192f'/><text x='50' y='68' font-family='monospace' font-size='48' font-weight='bold' text-anchor='middle' fill='%2364ffda'>SC</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -149,7 +150,7 @@
         .secondary-btn {
             background-color: transparent;
             color: var(--accent-color);
-            border: 1px solid var(--accent-color);
+            border: 2px solid var(--accent-color);
         }
 
         .secondary-btn:hover {
@@ -507,6 +508,26 @@
         .project-card:hover .project-image img {
             transform: scale(1.05);
         }
+
+        .project-image-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 25, 47, 0.88);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.25rem;
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            text-align: center;
+        }
+        .project-image-overlay p {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+        .project-card:hover .project-image-overlay { opacity: 1; }
 
         .project-info {
             padding: var(--space-2);
@@ -1379,6 +1400,18 @@
             color: #ff6b6b;
             border: 1px solid #ff6b6b;
         }
+        .form-group.field-error input,
+        .form-group.field-error textarea {
+            border-color: #ff6b6b;
+            outline: none;
+        }
+        .field-hint {
+            font-size: 0.78rem;
+            color: #ff6b6b;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        .form-group.field-error .field-hint { display: block; }
 
         .sentiment-indicator {
             display: inline-block;
@@ -1462,6 +1495,33 @@
             background-color: rgba(100, 255, 218, 0.1);
             padding: 0.25rem 0.6rem;
             border-radius: 15px;
+        }
+        /* Stats bar */
+        .stats-bar {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 80px;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 0.25rem;
+            text-align: center;
         }
         /* Scroll indicator */
         .scroll-indicator {
@@ -1647,10 +1707,25 @@
                         </p>
                         <p>
                         Beyond data, I explore new recipes, hiking trails, and rock climbing. 
-                        My multilingual background reflects my belief in cross-cultural communication—a principle I
+                        My multilingual background reflects my belief in cross-cultural communication, a principle I
                          apply in every project with curiosity and practical outcomes in mind.
                         </p>
                         
+                        <div class="stats-bar">
+                            <div class="stat-item">
+                                <span class="stat-number">8+</span>
+                                <span class="stat-label">Years Experience</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">3</span>
+                                <span class="stat-label">Countries</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">5</span>
+                                <span class="stat-label">Industries</span>
+                            </div>
+                        </div>
+
                         <div class="skills-grid">
                             <div class="skill-category">
                                 <h4>Technical Skills</h4>
@@ -1696,7 +1771,7 @@
                                 <div class="timeline-title">Senior Data Scientist</div>
                                 <div class="timeline-company">BearingPoint - Milan, Italy</div>
                                 <div class="timeline-description">
-                                    Leading data science initiatives across multiple industries, developing optimization models and machine learning solutions for enterprise clients.
+                                    Delivering ML and optimization projects for enterprise clients across financial services and wealth management. Implemented a financial planning tool in Switzerland and an ML-driven risk model for one of Italy's largest banks.
                                 </div>
                             </div>
                         </div>
@@ -1708,8 +1783,7 @@
                                 <div class="timeline-title">Senior Data Scientist & AI Engineer</div>
                                 <div class="timeline-company">BCI Bank</div>
                                 <div class="timeline-description">
-                                    Core member of a three-person analytics team supporting the Investments group under the bank’s 2030 Strategy. 
-                                    Built data pipelines and experiments and models for my stakeholders
+                                    Core member of a three-person analytics team embedded in the wealth management division. Designed and deployed predictive models, data pipelines, and A/B experiments to support portfolio and client decisions.
                                 </div>
                             </div>
                         </div>
@@ -1719,9 +1793,9 @@
                             <div class="timeline-content">
                                 <div class="timeline-date">2018 - 2021</div>
                                 <div class="timeline-title">Data Scientist & Analytics Consultant</div>
-                                <div class="timeline-company">Financial Services - Latin America</div>
+                                <div class="timeline-company">EY - Latin America</div>
                                 <div class="timeline-description">
-                                    Implemented predictive analytics and optimization models for wealth management and financial planning applications.
+                                    Built an end-to-end contract default prediction model and a country-wide shipment optimizer for Chile, working across Chile, Argentina, and Brazil; tackling the full pipeline from data engineering to production deployment.
                                 </div>
                             </div>
                         </div>
@@ -1733,7 +1807,7 @@
                                 <div class="timeline-title">Teaching Assistant</div>
                                 <div class="timeline-company">Various Courses - Undergrad&Grad Level</div>
                                 <div class="timeline-description">
-                                    Taught and supported university courses in logistics, programming, data modelling, building foundations in analytics and problem-solving.
+                                    Taught and supported 6+ courses at undergrad and graduate level in logistics, programming, and data modelling, building student foundations in analytics and quantitative problem-solving.
                                 </div>
                             </div>
                         </div>
@@ -1769,6 +1843,7 @@
                                     Interactive Network
                                 </div>
                             </div>
+                            <div class="project-image-overlay"><p>Mathematical optimization of multi-tier goods shipments across an entire country's logistics network.</p></div>
                         </div>
                         <div class="project-info">
                             <h3>Optimization of the country-wide shipments</h3>
@@ -1787,6 +1862,7 @@
                     <div class="project-card" data-category="machine-learning">
                         <div class="project-image">
                             <img src="images/Intelligent_Dashboarding.jpeg" alt="Predictive Analytics">
+                            <div class="project-image-overlay"><p>ML model tuning risk indicators at one of Italy's largest banks, cutting alert resolution effort significantly.</p></div>
                         </div>
                         <div class="project-info">
                             <h3>Predictive Analytics Model</h3>
@@ -1798,7 +1874,7 @@
                                 <span>Pandas</span>
                                 <span>TensorFlow</span>
                             </div>
-                            <button class="project-details-btn">View Details</button>
+                            <button class="project-details-btn">View Case Study</button>
                         </div>
                     </div>
                     
@@ -1818,6 +1894,7 @@
                                     Interactive Matching
                                 </div>
                             </div>
+                            <div class="project-image-overlay"><p>Multi-objective client-salesperson matching algorithm with real-time visualization of the optimization process.</p></div>
                         </div>
                         <div class="project-info">
                             <h3>Workforce Assignment Optimization</h3>
@@ -1836,6 +1913,7 @@
                     <div class="project-card" data-category="machine-learning">
                         <div class="project-image">
                             <img src="images/conversation_analysis.png" alt="NLP Project">
+                            <div class="project-image-overlay"><p>Text classification and sentiment analysis offloading 70% of call center requests to self-service.</p></div>
                         </div>
                         <div class="project-info">
                             <h3>Natural Language Processing</h3>
@@ -1898,21 +1976,25 @@
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <input type="text" id="name" name="name" required>
+                                <span class="field-hint">Please enter your name.</span>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="email" id="email" name="email" required>
+                                <span class="field-hint">Please enter a valid email address.</span>
                             </div>
                             <div class="form-group">
                                 <label for="subject">Subject</label>
                                 <input type="text" id="subject" name="subject" required>
+                                <span class="field-hint">Please enter a subject.</span>
                             </div>
                             <div class="form-group">
                                 <label for="message">Message</label>
                                 <textarea id="message" name="message" rows="5" required></textarea>
+                                <span class="field-hint">Please enter your message.</span>
                             </div>
                             <button type="submit" class="btn primary-btn">Send Message</button>
-                            <div id="formStatus" class="form-status"></div>
+                            <div id="formStatus" class="form-status" aria-live="polite"></div>
                         </form>
                     </div>
                 </div>

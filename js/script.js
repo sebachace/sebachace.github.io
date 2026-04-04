@@ -241,52 +241,66 @@ function initScrollReveal() {
 function initContactForm() {
   const contactForm = document.getElementById('contactForm');
 
-  if (contactForm) {
-      contactForm.addEventListener('submit', async function(e) {
-          e.preventDefault();
+  if (!contactForm) return;
 
-          const name = document.getElementById('name').value.trim();
-          const email = document.getElementById('email').value.trim();
-          const subject = document.getElementById('subject').value.trim();
-          const message = document.getElementById('message').value.trim();
-
-          if (name === '' || email === '' || subject === '' || message === '') {
-              showFormStatus('Please fill out all fields.', 'error');
-              return;
-          }
-
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!emailRegex.test(email)) {
-              showFormStatus('Please enter a valid email address.', 'error');
-              return;
-          }
-
-          const submitBtn = contactForm.querySelector('button[type="submit"]');
-          submitBtn.disabled = true;
-          submitBtn.textContent = 'Sending…';
-
-          try {
-              // Replace YOUR_FORMSPREE_ID with your actual form ID from formspree.io
-              const response = await fetch('https://formspree.io/f/xqedvlrj', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ name, email, subject, message })
-              });
-
-              if (response.ok) {
-                  showFormStatus('Thank you! Your message has been sent.', 'success');
-                  contactForm.reset();
-              } else {
-                  showFormStatus('Something went wrong. Please try again or email me directly.', 'error');
-              }
-          } catch (err) {
-              showFormStatus('Something went wrong. Please try again or email me directly.', 'error');
-          } finally {
-              submitBtn.disabled = false;
-              submitBtn.textContent = 'Send Message';
-          }
+  // Real-time blur validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  contactForm.querySelectorAll('input, textarea').forEach(function(field) {
+      field.addEventListener('blur', function() {
+          const group = field.closest('.form-group');
+          if (!group) return;
+          const empty = field.value.trim() === '';
+          const invalidEmail = field.type === 'email' && !empty && !emailRegex.test(field.value.trim());
+          group.classList.toggle('field-error', empty || invalidEmail);
       });
-  }
+      field.addEventListener('input', function() {
+          const group = field.closest('.form-group');
+          if (group) group.classList.remove('field-error');
+      });
+  });
+
+  contactForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const subject = document.getElementById('subject').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (name === '' || email === '' || subject === '' || message === '') {
+          showFormStatus('Please fill out all fields.', 'error');
+          return;
+      }
+
+      if (!emailRegex.test(email)) {
+          showFormStatus('Please enter a valid email address.', 'error');
+          return;
+      }
+
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      try {
+          const response = await fetch('https://formspree.io/f/xqedvlrj', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ name, email, subject, message })
+          });
+
+          if (response.ok) {
+              showFormStatus('Thank you! Your message has been sent.', 'success');
+              contactForm.reset();
+          } else {
+              showFormStatus('Something went wrong. Please try again or email me directly.', 'error');
+          }
+      } catch (err) {
+          showFormStatus('Something went wrong. Please try again or email me directly.', 'error');
+      } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send Message';
+      }
+  });
 }
 
 function showFormStatus(message, type) {
