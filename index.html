@@ -10,7 +10,7 @@
     <meta property="og:url" content="https://sebachace.github.io">
     <meta property="og:image" content="https://sebachace.github.io/images/IMG_6596.JPG">
     <title>Sebastian Chace || Data Science Portfolio</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230a192f'/><text x='50' y='68' font-family='monospace' font-size='48' font-weight='bold' text-anchor='middle' fill='%2364ffda'>SC</text></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%2315201B'/><text x='50' y='68' font-family='monospace' font-size='48' font-weight='bold' text-anchor='middle' fill='%232F6B53'>SC</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,22 +28,35 @@
     <style>
         /* Base Styles */
         :root {
-            --primary-color: #0a192f;
-            --primary-light: #112240;
-            --primary-dark: #051124;
-            --accent-color: #64ffda;
-            --text-primary: #e6f1ff;
-            --text-secondary: #8892b0;
-            --bg-color: #0a192f;
-            --card-bg: #112240;
-            --overlay: rgba(10, 25, 47, 0.9);
-            
+            /* Palette */
+            --color-paper:       #F4EFE6;
+            --color-paper-2:     #EBE4D4;
+            --color-ink:         #15201B;
+            --color-ink-soft:    #3A4540;
+            --color-muted:       #76807A;
+            --color-green:       #2F6B53;
+            --color-green-deep:  #1F4A3A;
+            --color-green-soft:  #CFDFD6;
+            --color-sand:        #D9C9A8;
+            --color-sand-deep:   #A8884F;
+
+            /* Legacy semantic aliases — keeps existing CSS rules working */
+            --primary-color:   var(--color-paper);
+            --primary-light:   var(--color-paper-2);
+            --primary-dark:    var(--color-ink);
+            --accent-color:    var(--color-green);
+            --text-primary:    var(--color-ink);
+            --text-secondary:  var(--color-ink-soft);
+            --bg-color:        var(--color-paper);
+            --card-bg:         var(--color-paper);
+            --overlay:         rgba(21, 32, 27, 0.85);
+
             --space-1: 0.5rem;
             --space-2: 1rem;
             --space-3: 2rem;
             --space-4: 3rem;
             --space-5: 5rem;
-            
+
             --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
             --border-radius: 4px;
             --container-width: 1200px;
@@ -75,8 +88,7 @@
         }
 
         a:hover {
-            color: var(--accent-color);
-            opacity: 0.8;
+            color: var(--color-green-deep);
         }
 
         ul {
@@ -137,24 +149,25 @@
         }
 
         .primary-btn {
-            background-color: var(--accent-color);
-            color: var(--primary-color);
-            border: 1px solid var(--accent-color);
+            background-color: var(--color-green);
+            color: #fff;
+            border: 1px solid var(--color-green);
         }
 
         .primary-btn:hover {
-            background-color: transparent;
-            color: var(--accent-color);
+            background-color: var(--color-green-deep);
+            border-color: var(--color-green-deep);
+            color: #fff;
         }
 
         .secondary-btn {
             background-color: transparent;
-            color: var(--accent-color);
-            border: 2px solid var(--accent-color);
+            color: var(--color-ink);
+            border: 2px solid var(--color-ink);
         }
 
         .secondary-btn:hover {
-            background-color: rgba(100, 255, 218, 0.1);
+            background-color: var(--color-paper-2);
         }
 
         /* Navigation */
@@ -164,9 +177,10 @@
             left: 0;
             width: 100%;
             z-index: 1000;
-            background-color: rgba(10, 25, 47, 0.9);
+            background-color: rgba(244, 239, 230, 0.95);
             backdrop-filter: blur(10px);
             transition: var(--transition);
+            border-bottom: 1px solid var(--color-sand);
         }
 
         .navbar {
@@ -331,7 +345,7 @@
             background-color: var(--card-bg);
             padding: var(--space-2);
             border-radius: var(--border-radius);
-            border: 1px solid rgba(100, 255, 218, 0.1);
+            border: 1px solid var(--color-sand);
         }
 
         .skill-category h4 {
@@ -371,7 +385,7 @@
             top: 0;
             bottom: 0;
             width: 4px;
-            background: linear-gradient(to bottom, var(--accent-color) 0%, var(--primary-light) 100%);
+            background: linear-gradient(to bottom, var(--color-green) 0%, var(--color-sand) 100%);
             border-radius: 2px;
         }
 
@@ -399,15 +413,15 @@
         }
 
         .timeline-dot.active {
-            background-color: var(--accent-color);
-            box-shadow: 0 0 0 4px var(--bg-color), 0 0 20px rgba(100, 255, 218, 0.3);
+            background-color: var(--color-green);
+            box-shadow: 0 0 0 4px var(--color-paper-2), 0 0 20px rgba(47, 107, 83, 0.3);
         }
 
         .timeline-content {
             background-color: var(--card-bg);
             padding: var(--space-2);
             border-radius: var(--border-radius);
-            border: 1px solid rgba(100, 255, 218, 0.1);
+            border: 1px solid var(--color-sand);
             transition: var(--transition);
         }
 
@@ -466,8 +480,8 @@
 
         .filter-btn:hover,
         .filter-btn.active {
-            background-color: rgba(100, 255, 218, 0.1);
-            color: var(--accent-color);
+            background-color: var(--color-green-soft);
+            color: var(--color-green);
         }
 
         .projects-grid {
@@ -480,7 +494,8 @@
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+            border: 1px solid var(--color-sand);
+            box-shadow: 0 4px 16px rgba(21, 32, 27, 0.08);
             transition: var(--transition);
             height: 100%;
             display: flex;
@@ -488,8 +503,9 @@
         }
 
         .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 30px -15px rgba(2, 12, 27, 0.7);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 32px rgba(21, 32, 27, 0.14);
+            border-color: var(--color-green);
         }
 
         .project-image {
@@ -512,7 +528,7 @@
         .project-image-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(10, 25, 47, 0.88);
+            background: rgba(21, 32, 27, 0.82);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -557,8 +573,8 @@
 
         .project-tech span {
             font-size: 0.85rem;
-            color: var(--accent-color);
-            background-color: rgba(100, 255, 218, 0.1);
+            color: var(--color-green-deep);
+            background-color: var(--color-green-soft);
             padding: 0.25rem 0.6rem;
             border-radius: 15px;
         }
@@ -576,7 +592,13 @@
         }
 
         .project-details-btn:hover {
-            background-color: rgba(100, 255, 218, 0.1);
+            background-color: var(--color-green-soft);
+        }
+
+        .project-card:hover .project-details-btn {
+            background-color: var(--color-green);
+            color: #fff;
+            border-color: var(--color-green);
         }
 
         /* Contact Section */
@@ -636,8 +658,8 @@
         }
 
         .social-icon:hover {
-            background-color: var(--accent-color);
-            color: var(--primary-color);
+            background-color: var(--color-green);
+            color: #fff;
             transform: translateY(-3px);
         }
 
@@ -666,10 +688,10 @@
         .form-group input,
         .form-group textarea {
             padding: 0.75rem;
-            background-color: var(--primary-light);
-            border: 1px solid rgba(100, 255, 218, 0.3);
+            background-color: var(--color-paper-2);
+            border: 1px solid color-mix(in srgb, var(--color-ink) 20%, transparent);
             border-radius: var(--border-radius);
-            color: var(--text-primary);
+            color: var(--color-ink);
             font-family: inherit;
             transition: var(--transition);
         }
@@ -688,7 +710,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #0a192f 0%, #112240 100%);
+            background: linear-gradient(135deg, var(--color-ink) 0%, var(--color-ink-soft) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -705,7 +727,7 @@
             position: absolute;
             width: 12px;
             height: 12px;
-            background: #64ffda;
+            background: var(--color-green-soft);
             border-radius: 50%;
             animation: pulse 2s infinite;
         }
@@ -718,13 +740,13 @@
         .preview-node:nth-child(6) { top: 60%; left: 80%; animation-delay: 1.5s; }
 
         @keyframes pulse {
-            0%, 100% { 
+            0%, 100% {
                 transform: scale(1);
-                box-shadow: 0 0 8px rgba(100, 255, 218, 0.5);
+                box-shadow: 0 0 8px rgba(207, 223, 214, 0.5);
             }
-            50% { 
+            50% {
                 transform: scale(1.5);
-                box-shadow: 0 0 16px rgba(100, 255, 218, 0.8);
+                box-shadow: 0 0 16px rgba(207, 223, 214, 0.8);
             }
         }
 
@@ -734,7 +756,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            color: #64ffda;
+            color: var(--color-green-soft);
             font-weight: 600;
             font-size: 1.1rem;
             z-index: 10;
@@ -804,7 +826,7 @@
         }
 
         .viz-description::-webkit-scrollbar-thumb:hover {
-            background: rgba(100, 255, 218, 0.8);
+            background: var(--color-green-deep);
         }
 
         #vizMap {
@@ -837,15 +859,15 @@
             top: 20px;
             left: 20px;
             z-index: 1000;
-            background: rgba(10, 25, 47, 0.9);
-            border: 2px solid #64ffda;
+            background: rgba(244, 239, 230, 0.9);
+            border: 2px solid var(--color-green);
             border-radius: 50%;
             width: 50px;
             height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #64ffda;
+            color: var(--color-green);
             cursor: pointer;
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -853,8 +875,8 @@
         }
 
         .viz-close:hover {
-            background: #64ffda;
-            color: #0a192f;
+            background: var(--color-green);
+            color: #fff;
         }
 
         .view-toggle {
@@ -862,8 +884,8 @@
             top: 20px;
             right: 20px;
             z-index: 1000;
-            background: rgba(10, 25, 47, 0.9);
-            border: 2px solid #64ffda;
+            background: rgba(244, 239, 230, 0.9);
+            border: 2px solid var(--color-green);
             border-radius: 25px;
             padding: 8px;
             display: flex;
@@ -876,7 +898,7 @@
         .toggle-btn {
             background: transparent;
             border: none;
-            color: #8892b0;
+            color: var(--color-muted);
             padding: 8px 16px;
             border-radius: 20px;
             cursor: pointer;
@@ -889,13 +911,13 @@
         }
 
         .toggle-btn.active {
-            background: #64ffda;
-            color: #0a192f;
+            background: var(--color-green);
+            color: #fff;
         }
 
         .toggle-btn:hover:not(.active) {
-            color: #64ffda;
-            background: rgba(100, 255, 218, 0.1);
+            color: var(--color-green);
+            background: var(--color-green-soft);
         }
 
         /* Visualization styles */
@@ -928,11 +950,11 @@
         }
 
         .graph-node {
-            fill: #64ffda;
+            fill: var(--color-green-soft);
             stroke: #ffffff;
             stroke-width: 2;
             cursor: pointer;
-            filter: drop-shadow(0 0 8px rgba(100, 255, 218, 0.5));
+            filter: drop-shadow(0 0 8px rgba(207, 223, 214, 0.5));
         }
 
         .graph-node:hover {
@@ -979,18 +1001,18 @@
 
         .info-panel {
             padding: 15px;
-            background: rgba(10, 25, 47, 0.9);
-            border: 1px solid #64ffda;
+            background: rgba(244, 239, 230, 0.95);
+            border: 1px solid var(--color-green);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             border-radius: 8px;
             max-width: 300px;
-            color: #e6f1ff;
+            color: var(--color-ink);
             backdrop-filter: blur(10px);
         }
 
         .info-panel h4 {
             margin: 0 0 8px;
-            color: #64ffda;
+            color: var(--color-green);
             font-size: 16px;
         }
 
@@ -1004,11 +1026,11 @@
             position: absolute;
             top: 80px;
             left: 20px;
-            background: rgba(10, 25, 47, 0.9);
-            border: 1px solid #64ffda;
+            background: rgba(244, 239, 230, 0.95);
+            border: 1px solid var(--color-green);
             border-radius: 8px;
             padding: 15px;
-            color: #e6f1ff;
+            color: var(--color-ink);
             backdrop-filter: blur(10px);
             z-index: 100;
             max-width: 280px;
@@ -1018,18 +1040,18 @@
             position: absolute;
             bottom: 20px;
             left: 20px;
-            background: rgba(10, 25, 47, 0.9);
-            border: 1px solid #64ffda;
+            background: rgba(244, 239, 230, 0.95);
+            border: 1px solid var(--color-green);
             border-radius: 8px;
             padding: 15px;
-            color: #e6f1ff;
+            color: var(--color-ink);
             backdrop-filter: blur(10px);
             z-index: 100;
         }
 
         .legend h4 {
             margin: 0 0 10px;
-            color: #64ffda;
+            color: var(--color-green);
             font-size: 14px;
         }
 
@@ -1048,7 +1070,7 @@
         }
 
         .source-city { background-color: #ff9500; }
-        .regular-city { background-color: #64ffda; }
+        .regular-city { background-color: var(--color-green); }
         .transport { background-color: #ff9500; }
         .data { background-color: #00c853; }
 
@@ -1162,50 +1184,51 @@
 
         /* NLP Visualization Styles */
         #nlpVizVisualization {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            background: var(--color-paper-2);
             padding: 20px;
             border-radius: 5px;
-            color: white;
-            font-family: 'Arial', sans-serif;
+            color: var(--color-ink);
+            font-family: 'Inter', sans-serif;
+            height: 100%;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         #nlpVizVisualization h1 {
             margin-bottom: 10px;
             text-align: center;
-            font-size: 2.2em;
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--color-ink);
+            letter-spacing: -0.01em;
         }
 
         #nlpVisualization {
             width: 100%;
-            height: 400px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
+            height: 500px;
+            background: var(--color-paper);
+            border-radius: 6px;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--color-sand);
+            box-shadow: inset 0 1px 4px rgba(21, 32, 27, 0.05);
         }
 
         .nlp-point {
             position: absolute;
-            width: 8px;
-            height: 8px;
+            width: 9px;
+            height: 9px;
             border-radius: 50%;
             transition: all 2.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 1px 3px rgba(21, 32, 27, 0.25);
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
             z-index: 10;
         }
 
         .nlp-connection-line {
             position: absolute;
             height: 1px;
-            background: rgba(255, 255, 255, 0.3);
             transform-origin: left center;
             opacity: 0;
             transition: opacity 1s ease-in-out;
@@ -1217,8 +1240,8 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            border: 3px solid rgba(255, 255, 255, 0.8);
-            background: rgba(255, 255, 255, 0.2);
+            border: 3px solid;
+            background: rgba(255, 255, 255, 0.7);
             opacity: 0;
             transition: opacity 1s ease-in-out;
             z-index: 15;
@@ -1231,8 +1254,10 @@
             left: -10px;
             right: -10px;
             bottom: -10px;
-            border: 2px solid rgba(255, 255, 255, 0.4);
+            border: 2px solid;
+            border-color: inherit;
             border-radius: 50%;
+            opacity: 0.4;
             animation: nlp-pulse 2s infinite;
         }
 
@@ -1244,121 +1269,132 @@
 
         .nlp-cluster-label {
             position: absolute;
-            font-weight: bold;
-            font-size: 14px;
+            font-weight: 600;
+            font-size: 11px;
             text-align: center;
             opacity: 0;
             transition: opacity 1s ease-in-out;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            background: rgba(0, 0, 0, 0.7);
-            padding: 8px 12px;
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--color-paper);
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid;
             z-index: 20;
+            white-space: nowrap;
+            line-height: 1.3;
         }
 
         .controls-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px;
-            margin: 30px 0 20px 0;
+            gap: 16px;
+            margin: 14px 0 10px 0;
             flex-wrap: wrap;
         }
 
         .controls {
             display: flex;
-            gap: 15px;
+            gap: 8px;
             flex-wrap: wrap;
             justify-content: center;
         }
 
         .controls button {
-            padding: 10px 20px;
-            font-size: 14px;
-            border: none;
-            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 13px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            letter-spacing: 0.02em;
         }
 
         .controls button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(21, 32, 27, 0.15);
         }
 
         .start-btn {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-            color: white;
+            background: var(--color-green);
+            color: #fff;
+            border: none;
         }
+
+        .start-btn:hover { background: var(--color-green-deep); }
 
         .reset-btn {
-            background: linear-gradient(45deg, #4ecdc4, #44bd87);
-            color: white;
+            background: var(--color-paper);
+            color: var(--color-ink);
+            border: 1px solid var(--color-sand);
         }
+
+        .reset-btn:hover { border-color: var(--color-ink); }
 
         .step-btn {
-            background: linear-gradient(45deg, #a55eea, #8b5cf6);
-            color: white;
+            background: var(--color-ink);
+            color: #fff;
+            border: none;
         }
 
+        .step-btn:hover { background: var(--color-ink-soft); }
+
         .or-divider {
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--color-muted);
             font-size: 12px;
-            font-weight: bold;
+            font-weight: 500;
         }
 
         .stage-indicator {
             margin: 0;
-            font-size: 14px;
-            font-weight: bold;
+            font-size: 12px;
+            font-weight: 500;
             text-align: center;
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 7px 14px;
+            background: var(--color-paper);
+            border: 1px solid var(--color-sand);
+            border-radius: 4px;
+            color: var(--color-ink-soft);
             white-space: nowrap;
         }
 
         .metrics-panel {
-            background: rgba(0, 0, 0, 0.7);
+            background: var(--color-paper);
             display: flex;
             justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px;
             padding: 10px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            max-width: 90%;
-            margin: 5px auto;
+            border-radius: 6px;
+            border: 1px solid var(--color-sand);
+            max-width: 100%;
+            margin: 8px auto 0;
         }
 
         .metric-item {
-            margin: 10px 0;
-            font-size: 16px;
             opacity: 0;
             transition: opacity .5s ease-in-out;
-            padding: 8px 12px;
-            border: 1px solid #ccc;
+            padding: 6px 12px;
+            border: 1px solid var(--color-sand);
             border-radius: 4px;
+            background: var(--color-paper-2);
+            text-align: center;
+            min-width: 110px;
         }
 
         .metric-label {
-            color: #4ecdc4;
-            font-weight: bold;
+            color: var(--color-green);
+            font-weight: 600;
             display: block;
-            font-size: 14px;
-            margin-bottom: 5px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 2px;
         }
 
         .metric-value {
-            color: #ffffff;
-            font-size: 20px;
-            font-weight: bold;
+            color: var(--color-ink);
+            font-size: 18px;
+            font-weight: 700;
             display: block;
         }
 
@@ -1367,18 +1403,70 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
+            background: rgba(244, 239, 230, 0.96);
+            color: var(--color-ink);
+            padding: 16px 24px;
+            border-radius: 8px;
             text-align: center;
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 15px;
+            font-weight: 600;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--color-sand);
+            box-shadow: 0 4px 16px rgba(21, 32, 27, 0.12);
             z-index: 25;
+        }
+
+        .nlp-dot-legend {
+            font-size: 10px;
+            color: var(--color-muted);
+            text-align: right;
+            padding: 3px 6px 0;
+            letter-spacing: 0.02em;
+        }
+
+        #nlpBarChart {
+            display: none;
+            padding: 10px 8px 6px;
+            border: 1px solid var(--color-sand);
+            border-radius: 6px;
+            background: var(--color-paper);
+            margin: 8px 0 0;
+        }
+
+        .viz-live-counter {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(21, 32, 27, 0.82);
+            color: #fff;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 0.72rem;
+            display: flex;
+            gap: 20px;
+            z-index: 900;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+        }
+
+        .viz-counter-item { text-align: center; }
+
+        .viz-counter-value {
+            display: block;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--color-sand);
+            line-height: 1.1;
+        }
+
+        .viz-counter-label {
+            display: block;
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            margin-top: 2px;
         }
 
         /* Form status feedback */
@@ -1391,9 +1479,9 @@
             font-size: 0.95rem;
         }
         .form-status.success {
-            background-color: rgba(100, 255, 218, 0.1);
-            color: var(--accent-color);
-            border: 1px solid var(--accent-color);
+            background-color: var(--color-green-soft);
+            color: var(--color-green);
+            border: 1px solid var(--color-green);
         }
         .form-status.error {
             background-color: rgba(255, 107, 107, 0.1);
@@ -1415,12 +1503,11 @@
 
         .sentiment-indicator {
             display: inline-block;
-            padding: 5px 10px;
-            margin: 0 5px;
-            border-radius: 15px;
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
         }
 
         /* ===== Project Details Modal ===== */
@@ -1431,7 +1518,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(10, 25, 47, 0.95);
+            background-color: rgba(21, 32, 27, 0.85);
             z-index: 2000;
             overflow-y: auto;
             padding: 2rem 0;
@@ -1491,8 +1578,8 @@
         }
         .modal-tech span {
             font-size: 0.85rem;
-            color: var(--accent-color);
-            background-color: rgba(100, 255, 218, 0.1);
+            color: var(--color-green-deep);
+            background-color: var(--color-green-soft);
             padding: 0.25rem 0.6rem;
             border-radius: 15px;
         }
@@ -1561,20 +1648,20 @@
         }
         .copy-btn {
             background: none;
-            border: 1px solid rgba(100, 255, 218, 0.3);
-            color: var(--accent-color);
+            border: 1px solid rgba(47, 107, 83, 0.3);
+            color: var(--color-green);
             border-radius: 4px;
             padding: 2px 6px;
             cursor: pointer;
             font-size: 0.75rem;
             transition: background 0.2s;
         }
-        .copy-btn:hover { background: rgba(100, 255, 218, 0.1); }
+        .copy-btn:hover { background: var(--color-green-soft); }
         /* Footer */
         .site-footer {
-            background: var(--primary-dark, #051124);
+            background: var(--color-ink);
             padding: 2rem 0 1.5rem;
-            border-top: 1px solid rgba(100, 255, 218, 0.1);
+            border-top: 1px solid var(--color-sand);
         }
         .footer-content {
             display: flex;
@@ -1587,7 +1674,7 @@
         .footer-logo a {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--text-primary);
+            color: var(--color-paper);
             text-decoration: none;
         }
         .footer-nav {
@@ -1595,25 +1682,25 @@
             gap: 1.5rem;
         }
         .footer-nav a {
-            color: var(--text-secondary);
+            color: var(--color-muted);
             text-decoration: none;
             font-size: 0.9rem;
             transition: color 0.2s;
         }
-        .footer-nav a:hover { color: var(--accent-color); }
+        .footer-nav a:hover { color: var(--color-green-soft); }
         .footer-social {
             display: flex;
             gap: 1rem;
         }
         .footer-social a {
-            color: var(--text-secondary);
+            color: var(--color-muted);
             font-size: 1.1rem;
             transition: color 0.2s;
         }
-        .footer-social a:hover { color: var(--accent-color); }
+        .footer-social a:hover { color: var(--color-green-soft); }
         .footer-copy {
             text-align: center;
-            color: var(--text-secondary);
+            color: var(--color-muted);
             font-size: 0.8rem;
             margin: 0;
         }
@@ -1622,8 +1709,8 @@
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            background: var(--accent-color);
-            color: var(--primary-color);
+            background: var(--color-green);
+            color: #fff;
             border: none;
             border-radius: 50%;
             width: 44px;
@@ -1636,7 +1723,96 @@
             z-index: 999;
         }
         #backToTop.visible { opacity: 1; visibility: visible; }
-        #backToTop:hover { transform: translateY(-3px); }
+        #backToTop:hover { transform: translateY(-3px); background: var(--color-green-deep); }
+
+        /* Hero eyebrow + subline */
+        .hero-eyebrow {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.78rem;
+            font-variant: small-caps;
+            letter-spacing: 0.14em;
+            color: var(--color-green);
+            text-transform: uppercase;
+            margin-bottom: var(--space-1);
+        }
+
+        .hero-subline {
+            font-size: 1.15rem;
+            color: var(--color-ink-soft);
+            margin-bottom: var(--space-3);
+            max-width: 540px;
+        }
+
+        /* Quick Demo buttons */
+        .quick-demos {
+            margin-top: var(--space-2);
+        }
+
+        .quick-demos-label {
+            display: block;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 11px;
+            color: var(--color-muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-demos-row {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-demo-btn {
+            background-color: var(--color-ink);
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            padding: 8px 14px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .quick-demo-btn:hover {
+            background-color: var(--color-ink-soft);
+            color: #fff;
+        }
+
+        @media screen and (max-width: 640px) {
+            .quick-demos-row {
+                flex-direction: column;
+            }
+            .quick-demo-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        /* About bullets */
+        .about-bullets {
+            list-style: disc;
+            padding-left: 1.5rem;
+            color: var(--color-ink-soft);
+            margin-bottom: var(--space-2);
+            line-height: 1.7;
+        }
+
+        .about-bullets li {
+            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .about-human {
+            font-size: 1.05rem;
+            color: var(--color-ink-soft);
+            font-style: italic;
+            margin-bottom: var(--space-2);
+        }
     </style>
 </head>
 <body>
@@ -1665,14 +1841,22 @@
         <section id="home" class="section home-section">
             <div class="container">
                 <div class="home-content">
-                    <h1>Hello, I'm <span class="accent">Sebastian Chace</span></h1>
-                    <h2>Sr. Data Scientist & ML Engineer</h2>
-                    <p>Code is now a commodity, insights aren't</p>
+                    <p class="hero-eyebrow">SR. DATA SCIENTIST · ML ENGINEER</p>
+                    <h1>Senior Data Scientist for finance &amp; operations.</h1>
+                    <p class="hero-subline">I build the optimization and ML systems that move the P&amp;L.</p>
                     <div class="cta-buttons">
-                        <a href="resources/Resume Seb ENG_2025.pdf" download class="btn primary-btn">
+                        <a href="#projects" class="btn primary-btn">View My Work</a>
+                        <a href="resources/Resume Seb ENG_2025.pdf" download class="btn secondary-btn">
                             <i class="fas fa-download"></i> Download Resume
                         </a>
-                        <a href="#projects" class="btn secondary-btn">View My Work</a>
+                    </div>
+                    <div class="quick-demos">
+                        <span class="quick-demos-label">&#9658; 30-SEC QUICK DEMOS</span>
+                        <div class="quick-demos-row">
+                            <button class="quick-demo-btn" onclick="openNetworkViz()">&#9654; Optimization</button>
+                            <button class="quick-demo-btn" onclick="openNlpViz()">&#9654; NLP / Conversations</button>
+                            <button class="quick-demo-btn" onclick="openOptimizationViz()">&#9654; Workforce Assignment</button>
+                        </div>
                     </div>
                 </div>
                 <div class="home-image">
@@ -1696,19 +1880,21 @@
                 <div class="about-content">
                     <div class="about-text">
                         <p>
-                    As a Senior Data Scientist at BearingPoint in Milan, 
-                    I transform business challenges into data-driven solutions across
-                     finance and analytics in Latin America and Europe, balancing technical precision with human impact.
+                            I'm a Senior Data Scientist at BearingPoint in Milan. I design and ship
+                            optimization and ML systems for banks, logistics networks, and industrial
+                            operations across Latin America and Europe.
                         </p>
-                        <p>                            
-                        My experience spans from teaching university forecasting to implementing machine learning
-                         applications across financial services, logistics, and chemical industries. 
-                         The best solutions emerge from collaboration and critical thinking, not just algorithms.
-                        </p>
-                        <p>
-                        Beyond data, I explore new recipes, hiking trails, and rock climbing. 
-                        My multilingual background reflects my belief in cross-cultural communication, a principle I
-                         apply in every project with curiosity and practical outcomes in mind.
+                        <ul class="about-bullets">
+                            <li>Built an ML risk model now in production at one of Italy's largest
+                                banks, materially reducing alert-resolution effort.</li>
+                            <li>Designed a country-wide shipment optimizer covering 26 Chilean cities
+                                and 29 network links, integrated end-to-end into the client's ERP.</li>
+                            <li>Shipped an NLP/clustering pipeline that offloaded 70% of a contact
+                                centre's volume to self-service.</li>
+                        </ul>
+                        <p class="about-human">
+                            Outside work: new recipes, hiking trails, rock climbing, and four
+                            languages I keep alive by switching between them on calls.
                         </p>
                         
                         <div class="stats-bar">
@@ -1900,9 +2086,9 @@
                             <h3>Workforce Assignment Optimization</h3>
                             <p>Interactive client-salesperson matching algorithm with real-time visualization of multi-objective optimization process.</p>
                             <div class="project-tech">
-                                <span>JavaScript</span>
+                                <span>Spark</span>
+                                <span>Databricks</span>
                                 <span>Optimization Algorithms</span>
-                                <span>Interactive Visualization</span>
                                 <span>Multi-Objective Scoring</span>
                             </div>
                             <button class="project-details-btn" onclick="openOptimizationViz()">View Interactive Demo</button>
@@ -2077,8 +2263,19 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="viz-live-counter" id="vizLiveCounter">
+                        <div class="viz-counter-item">
+                            <span class="viz-counter-value" id="viz-counter-transit">0</span>
+                            <span class="viz-counter-label">in transit</span>
+                        </div>
+                        <div class="viz-counter-item">
+                            <span class="viz-counter-value" id="viz-counter-cities">0</span>
+                            <span class="viz-counter-label">cities reached</span>
+                        </div>
+                    </div>
                 </div>
-                
+
                 <!-- Description Section (Right 1/3) -->
                 <div class="viz-description">
                     <h3 style="color: var(--accent-color); margin-bottom: var(--space-2);">Country-wide Shipping Optimization</h3>
@@ -2118,10 +2315,10 @@
                     <div style="font-size: 0.85em;">
                         <h4 style="color: var(--text-primary); margin-bottom: var(--space-1);">Technologies</h4>
                         <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Julia</span>
-                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Linear Optimization</span>
-                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Excel&VBA</span>
-                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">GCP</span>
+                            <span style="background: var(--color-green-soft); color: var(--color-green-deep); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Julia</span>
+                            <span style="background: var(--color-green-soft); color: var(--color-green-deep); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Linear Optimization</span>
+                            <span style="background: var(--color-green-soft); color: var(--color-green-deep); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Excel&VBA</span>
+                            <span style="background: var(--color-green-soft); color: var(--color-green-deep); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">GCP</span>
                         </div>
                     </div>
                     
@@ -2178,10 +2375,10 @@
                     <div style="font-size: 0.85em;">
                         <h4 style="color: var(--text-primary); margin-bottom: var(--space-1);">Technologies</h4>
                         <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">JavaScript</span>
-                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Optimization Algorithms</span>
-                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Interactive Visualization</span>
-                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Multi-Objective Scoring</span>
+                            <span style="background: var(--color-green-soft); color: var(--color-green-deep); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Spark</span>
+                            <span style="background: var(--color-green-soft); color: var(--color-green-deep); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Databricks</span>
+                            <span style="background: var(--color-green-soft); color: var(--color-green-deep); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Optimization Algorithms</span>
+                            <span style="background: var(--color-green-soft); color: var(--color-green-deep); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Multi-Objective Scoring</span>
                         </div>
                     </div>
                 </div>
@@ -2199,7 +2396,7 @@
             <div class="viz-content">
                 <!-- Visualization Section (Left 2/3) -->
                 <div class="viz-visualization" id="nlpVizVisualization">
-                    <h1>💬 Conversation Analysis Study</h1>
+                    <h1>Conversation Analysis — NLP Clustering</h1>
                     
                     <div class="controls-container">
                         <div class="controls">
@@ -2214,10 +2411,24 @@
                         </div>
                     </div>
 
+                    <div id="nlpVisualization">
+                        <div class="sentiment-notification" id="nlpSentimentNotification">
+                            <div style="font-size: 13px; color: var(--color-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">Analyzing Sentiment</div>
+                            <div style="display: flex; gap: 10px; justify-content: center;">
+                                <span class="sentiment-indicator" style="background: #C0392B;">Negative</span>
+                                <span class="sentiment-indicator" style="background: #2F6B53;">Positive</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="nlp-dot-legend">● 1 dot ≈ 667 conversations (80K total ÷ 120 dots)</div>
+
+                    <div id="nlpBarChart"></div>
+
                     <div class="metrics-panel" id="nlpMetricsPanel" style="display: none;">
                         <div class="metric-item" id="nlpMetric1">
                             <span class="metric-label">Unique Conversations:</span>
-                            <span class="metric-value">120</span>
+                            <span class="metric-value">~80K</span>
                         </div>
                         <div class="metric-item" id="nlpMetric2">
                             <span class="metric-label">Analysis Variables:</span>
@@ -2230,16 +2441,6 @@
                         <div class="metric-item" id="nlpMetric5">
                             <span class="metric-label">Top 2 Themes:</span>
                             <span class="metric-value">70% coverage</span>
-                        </div>
-                    </div>
-
-                    <div id="nlpVisualization">
-                        <div class="sentiment-notification" id="nlpSentimentNotification">
-                            <div>🔍 Analyzing Sentiment</div>
-                            <div style="margin-top: 10px; font-size: 16px;">
-                                <span class="sentiment-indicator" style="background: #e74c3c;">Negative</span>
-                                <span class="sentiment-indicator" style="background: #3498db;">Positive</span>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -2278,10 +2479,10 @@
                     <div style="font-size: 0.85em;">
                         <h4 style="color: var(--text-primary); margin-bottom: var(--space-1);">Technologies</h4>
                         <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">NLTK</span>
-                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">TensorFlow</span>
-                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">BERT</span>
-                            <span style="background: rgba(100, 255, 218, 0.1); color: var(--accent-color); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Tokenization</span>
+                            <span style="background: var(--color-green-soft); color: var(--color-green-deep); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">NLTK</span>
+                            <span style="background: var(--color-green-soft); color: var(--color-green-deep); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">TensorFlow</span>
+                            <span style="background: var(--color-green-soft); color: var(--color-green-deep); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">BERT</span>
+                            <span style="background: var(--color-green-soft); color: var(--color-green-deep); padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.85rem;">Tokenization</span>
                         </div>
                     </div>
                 </div>
@@ -2327,14 +2528,14 @@
             particlesJS('particles-js', {
                 particles: {
                     number: { value: 50, density: { enable: true, value_area: 800 } },
-                    color: { value: '#64ffda' },
+                    color: { value: '#2F6B53' },
                     shape: { type: 'circle' },
-                    opacity: { value: 0.5 },
+                    opacity: { value: 0.4 },
                     size: { value: 3, random: true },
                     line_linked: {
                         enable: true,
                         distance: 150,
-                        color: '#64ffda',
+                        color: '#2F6B53',
                         opacity: 0.4,
                         width: 1
                     },

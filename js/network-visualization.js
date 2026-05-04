@@ -14,6 +14,15 @@ let vizAnimationRunning = false;
 let vizPathSegmentLookup = {};
 let vizZoomBehavior, vizGraphContainer;
 let vizGraphWidth, vizGraphHeight;
+let vizShipmentsInTransit = 0;
+let vizCitiesReached = new Set();
+
+function updateVizLiveCounters() {
+    const transitEl = document.getElementById('viz-counter-transit');
+    const citiesEl = document.getElementById('viz-counter-cities');
+    if (transitEl) transitEl.textContent = vizShipmentsInTransit;
+    if (citiesEl) citiesEl.textContent = vizCitiesReached.size;
+}
 
 // Chilean cities data
 const cities = [
@@ -444,6 +453,11 @@ function createVizMapMovingElements() {
         vizAnimationRunning = true;
         updateVizMovingElements();
     }
+
+    // Initialize live counters
+    vizShipmentsInTransit = vizMovingCircles.length + vizDataPackets.length;
+    vizCitiesReached = new Set(sourceCities);
+    updateVizLiveCounters();
 }
 
 /**
@@ -465,12 +479,22 @@ function updateVizMovingElements() {
                 element.position += element.speed;
                 
                 if (element.position >= 1) {
+                    const arrivedCity = currentSegment.isForward ? currentSegment.to : currentSegment.from;
+                    if (!vizCitiesReached.has(arrivedCity)) {
+                        vizCitiesReached.add(arrivedCity);
+                        updateVizLiveCounters();
+                    }
                     element.currentSegmentIndex++;
                     element.position = 0;
-                    
+
                     if (element.currentSegmentIndex >= element.segments.length) {
                         element.isComplete = true;
                         element.element.attr("r", 0);
+                        if (!element.counted) {
+                            element.counted = true;
+                            vizShipmentsInTransit = Math.max(0, vizShipmentsInTransit - 1);
+                            updateVizLiveCounters();
+                        }
                     }
                 }
                 
